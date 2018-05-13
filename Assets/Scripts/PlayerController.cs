@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float bulletDamage = 3.0f;
     [SerializeField] float bulletScale = 1.0f;
     [SerializeField] float fireRate = 0.4f;
+    [SerializeField] float spamClickReductionFireRate = 0.08f;
     [SerializeField] int healthPoint = 3;
     [SerializeField] float slowTime = 3.0f;
     [SerializeField] float slowTimeRecoveryScale = 0.3f;
@@ -71,6 +72,12 @@ public class PlayerController : MonoBehaviour {
 
     private void ManageInputs()
     {
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            fireRateCd -= spamClickReductionFireRate;
+        }
+
         if (Input.GetButton("Fire1"))
         {
             var v3 = Input.mousePosition;
@@ -115,13 +122,9 @@ public class PlayerController : MonoBehaviour {
         clock.fillAmount = slowTimeTimer / slowTime;
 
         if(blockedSlowTimeTimer)
-        {
             clockBackground.color = Color.red;
-        }
         else
-        {
             clockBackground.color = Color.white;
-        }
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float verticale = Input.GetAxisRaw("Vertical");
