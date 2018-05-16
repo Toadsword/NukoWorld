@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class BulletBehavior : MonoBehaviour {
 
-    public float damage = 2.0f;
-    public bool fromPlayer = true;
+    public int damage = 1;
+    public bool isFriendly = true;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.transform.tag == "enemy" && fromPlayer)
+        if (collision.transform.tag == "Demon" && isFriendly)
         {
             //Deal damage to enemy
+            collision.gameObject.GetComponent<DemonController>().GetHit(damage);
+            Destroy(gameObject);
         }
-        else if(collision.transform.tag == "player")
+        else if (collision.transform.tag == "player" && !isFriendly)
         {
-            //Deal damage to player, usually 0.5 but we never know :3
+            collision.gameObject.GetComponent<PlayerController>().GetHit(damage);
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+
     }
 }

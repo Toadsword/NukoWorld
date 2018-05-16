@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 50994297448829408}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,7 +134,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1721259678282734}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.28, y: 0, z: 0}
+  m_LocalPosition: {x: -0.15302658, y: -0.16769493, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224033928778889600}
@@ -217,7 +217,7 @@ MonoBehaviour:
   moveSpeed: 5
   bulletSpeed: 9
   bulletDamage: 3
-  bulletScale: 1
+  bulletScale: 0.3
   fireRate: 0.4
   spamClickReductionFireRate: 0.08
   healthPoint: 3
@@ -459,7 +459,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 1}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 2, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224188487406894794
 RectTransform:

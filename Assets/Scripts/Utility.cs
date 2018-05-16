@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Utility : MonoBehaviour {
+public class Utility{
     public static float StartTimer(float deltaTime)
     {
         return Time.time + deltaTime;
     }
 
     // Return "true" if the timer has passed the time
-    public static bool CheckTimer(float timerToCheck)
+    public static bool IsOver(float timerToCheck)
     {
         return timerToCheck <= Time.time;
     }

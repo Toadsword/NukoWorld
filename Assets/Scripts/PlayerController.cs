@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour {
     [Header("Overall stats")]
     [SerializeField] float moveSpeed = 5.0f;
     [SerializeField] float bulletSpeed = 9.0f;
-    [SerializeField] float bulletDamage = 3.0f;
-    [SerializeField] float bulletScale = 1.0f;
+    [SerializeField] int bulletDamage = 3;
+    [SerializeField] float bulletScale = 0.3f;
     [SerializeField] float fireRate = 0.4f;
     [SerializeField] float spamClickReductionFireRate = 0.08f;
     [SerializeField] int healthPoint = 3;
@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour {
     Image clock;
     Image clockBackground;
 
+    BulletData bulletData;
+
     Rigidbody2D rigid;
 
 	// Use this for initialization
@@ -44,6 +46,11 @@ public class PlayerController : MonoBehaviour {
         clock = transform.Find("PlayerUI").Find("Clock").GetComponent<Image>();
         clockBackground = transform.Find("PlayerUI").Find("ClockBackground").GetComponent<Image>();
         lastAngle = new Vector2(0.0f, 0.0f);
+
+        bulletData.damage = bulletDamage;
+        bulletData.scale = bulletScale;
+        bulletData.speed = bulletSpeed;
+        bulletData.isFriendly = true;
 
         fireRateCd = 0.0f;
 
@@ -84,12 +91,12 @@ public class PlayerController : MonoBehaviour {
             v3.z = 10.0f;
             v3 = Camera.main.ScreenToWorldPoint(v3);
 
-            if (Utility.CheckTimer(fireRateCd))
+            if (Utility.IsOver(fireRateCd))
             {
-                //Instantiate(particlePrefab, v3, transform.rotation);
-                GameObject bullet = Instantiate(bulletPrefab, gunCannon.position, transform.rotation);
-                bullet.GetComponent<Rigidbody2D>().velocity = -lastAngle.normalized * bulletSpeed;
-                bullet.transform.localScale = new Vector3(bulletScale, bulletScale, 1.0f);
+                bulletData.position = gunCannon.position;
+                bulletData.direction = -lastAngle.normalized;
+                BulletCreator.CreateBullet(bulletPrefab, bulletData);
+
                 fireRateCd = Utility.StartTimer(fireRate);
             }
         }
@@ -129,5 +136,15 @@ public class PlayerController : MonoBehaviour {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float verticale = Input.GetAxisRaw("Vertical");
         rigid.velocity = new Vector2(horizontal, verticale) * moveSpeed;
+    }
+
+    public void GetHit(int damage)
+    {
+        healthPoint -= damage;
+        if(healthPoint <= 0.0f)
+        {
+            //TODO : Trigger death;
+            Debug.Log("PLAYER IS DEAD");
+        }
     }
 }
