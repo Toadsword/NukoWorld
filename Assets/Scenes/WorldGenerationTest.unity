@@ -165,7 +165,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -226,6 +226,32 @@ MonoBehaviour:
   sizeChunk: 10
   cellulePrefab: {fileID: 1350774210349298, guid: 0b33e6e9d8653274c80be89676ae1b95,
     type: 2}
+  spritesWallLeft:
+  - {fileID: 21300054, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  spritesWallRight:
+  - {fileID: 21300052, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  spritesWallBotLeft:
+  - {fileID: 21300040, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  spritesWallBottomMid:
+  - {fileID: 21300042, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  - {fileID: 21300044, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  spritesWallBotRight:
+  - {fileID: 21300046, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  spritesWallTopLeft:
+  - {fileID: 21300032, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  spritesWallTopMid:
+  - {fileID: 21300036, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  - {fileID: 21300034, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  spritesWallTopRight:
+  - {fileID: 21300038, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  spritesRaccBotLeft:
+  - {fileID: 21300050, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  spritesRaccBotRight:
+  - {fileID: 21300048, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  spritesRaccTopLeft:
+  - {fileID: 21300056, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
+  spritesRaccTopRight:
+  - {fileID: 21300058, guid: 6e597f3d4a6a8df43acdfefafb4207ea, type: 3}
   emptyCells: []
   celluleInitRepartition: 0.5
   stepNumber: 12

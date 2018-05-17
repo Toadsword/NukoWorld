@@ -11,6 +11,21 @@ public class MapGenerator : MonoBehaviour
 
     public GameObject cellulePrefab;
 
+    [Header("Sprites")]
+    [SerializeField] Sprite[] spritesWallLeft;
+    [SerializeField] Sprite[] spritesWallRight;
+    [SerializeField] Sprite[] spritesWallBotLeft;
+    [SerializeField] Sprite[] spritesWallBottomMid;
+    [SerializeField] Sprite[] spritesWallBotRight;
+    [SerializeField] Sprite[] spritesWallTopLeft;
+    [SerializeField] Sprite[] spritesWallTopMid;
+    [SerializeField] Sprite[] spritesWallTopRight;
+
+    [SerializeField] Sprite[] spritesRaccBotLeft;
+    [SerializeField] Sprite[] spritesRaccBotRight;
+    [SerializeField] Sprite[] spritesRaccTopLeft;
+    [SerializeField] Sprite[] spritesRaccTopRight;
+
     public Dictionary<Vector2Int, GameObject> cellules = new Dictionary<Vector2Int, GameObject>();
     public List<Vector2Int> emptyCells = new List<Vector2Int>();
     public List<List<Vector2Int>> zones = new List<List<Vector2Int>>();
@@ -309,6 +324,91 @@ public class MapGenerator : MonoBehaviour
         }
     }
     
+    void SetSprites()
+    {
+        foreach(Vector2Int cell in emptyCells)
+        {
+            for (int dx = -1; dx <= 1; dx++)
+            {
+                for (int dy = -1; dy <= 1; dy++)
+                {
+                    if (dx == 0 && dy == 0)
+                        continue;
+
+                    Vector2Int neighborPos = cell + new Vector2Int(dx, dy);
+                    if (cellules.ContainsKey(neighborPos))
+                    {
+                        AssignSprite(neighborPos);
+                    }
+                }
+            }
+        }
+    }
+
+    void AssignSprite(Vector2Int cell)
+    {
+        Sprite[] sprites = null;
+        int layoutLevel = 0;
+
+        bool isCellTop = cellules.ContainsKey(cell + new Vector2Int(0, 1));
+        bool isCellBot = cellules.ContainsKey(cell + new Vector2Int(0, -1));
+        bool isCellLeft = cellules.ContainsKey(cell + new Vector2Int(-1, 0));
+        bool isCellRight = cellules.ContainsKey(cell + new Vector2Int(1, 0));
+
+        bool isCellTopLeft = cellules.ContainsKey(cell + new Vector2Int(-1, 1));
+        bool isCellTopRight = cellules.ContainsKey(cell + new Vector2Int(1, 1));
+        bool isCellBotLeft = cellules.ContainsKey(cell + new Vector2Int(-1, -1));
+        bool isCellBotRight = cellules.ContainsKey(cell + new Vector2Int(1, -1));
+
+        if (isCellTop && isCellBot && isCellLeft && isCellRight)
+        {
+            // Corners
+            if (!isCellTopLeft)
+                sprites = spritesRaccTopLeft;
+            else if (!isCellTopRight)
+                sprites = spritesRaccTopRight;
+            else if (!isCellBotLeft)
+                sprites = spritesRaccBotLeft;
+            else if (!isCellBotRight)
+                sprites = spritesRaccBotRight;
+
+            layoutLevel = 1;
+        }
+        else
+        {
+            // Walls Middle
+            if (isCellTop && isCellBot && isCellLeft)
+                sprites = spritesWallRight;
+            else if (isCellTop && isCellBot && isCellRight)
+                sprites = spritesWallLeft;
+            else if (isCellTop && isCellRight && isCellLeft)
+                sprites = spritesWallBottomMid;
+            else if (isCellBot && isCellRight && isCellLeft)
+                sprites = spritesWallTopMid;
+
+            //WallsCorner
+            else if (isCellBot && isCellRight)
+                sprites = spritesWallTopLeft;
+            else if (isCellTop && isCellRight)
+                sprites = spritesWallBotLeft;
+            else if (isCellBot && isCellLeft)
+                sprites = spritesWallTopRight;
+            else if (isCellTop && isCellLeft)
+                sprites = spritesWallBotRight;
+        }
+
+        if (sprites == null)
+        {
+            Debug.Log("ERROR PARSING TILE");
+            return;
+        }
+
+        int index = Random.Range(0, sprites.Length - 1);
+
+        cellules[cell].GetComponent<SpriteRenderer>().sprite = sprites[index];
+        cellules[cell].GetComponent<SpriteRenderer>().color = Color.white;
+        cellules[cell].GetComponent<SpriteRenderer>().sortingOrder = layoutLevel;
+    }
 
     // Update is called once per frame
     void Update()
@@ -338,8 +438,9 @@ public class MapGenerator : MonoBehaviour
             CalculateEmptyZones();
         }
 
-        if(zones.Count == 1)
+        if(zones.Count == 1 && stepNumber < 0 && doOnce)
         {
+            SetSprites();
             Debug.Log("DONE");
         }
     }
