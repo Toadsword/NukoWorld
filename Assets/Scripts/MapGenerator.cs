@@ -2,71 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Chronometer
-{
-    public float period;
-    public float time;
-
-    public Chronometer(float initialTime, float constPeriod)
-    {
-        period = constPeriod;
-        time = initialTime;
-    }
-    public void Update(float deltaTime)
-    {
-        if (time >= 0)
-            time -= deltaTime;
-    }
-    public bool Over()
-    {
-        return time <= 0;
-    }
-    public void SetPeriod(float newPeriod)
-    {
-        if (newPeriod < time)
-        {
-            time = -1.0f;
-        }
-        period = newPeriod;
-    }
-    public void Reset()
-    {
-        time = period;
-    }
-    public float Current()
-    {
-        return (period - time) / period;
-    }
-    public float CurrentTime()
-    {
-        return period - time;
-    }
-    public float Remain()
-    {
-        return time;
-    }
-}
-
 public class MapGenerator : MonoBehaviour
 {
-    public int sizeX = 5;
-    public int sizeY = 5;
+    public int sizeX = 40;
+    public int sizeY = 40;
+
+    public int sizeChunk = 10;
 
     public GameObject cellulePrefab;
 
-    public Dictionary<Vector2, GameObject> cellules = new Dictionary<Vector2, GameObject>();
-    public List<Vector2> emptyCells = new List<Vector2>();
-    public List<List<Vector2>> zones = new List<List<Vector2>>();
+    public Dictionary<Vector2Int, GameObject> cellules = new Dictionary<Vector2Int, GameObject>();
+    public List<Vector2Int> emptyCells = new List<Vector2Int>();
+    public List<List<Vector2Int>> zones = new List<List<Vector2Int>>();
 
     public float celluleInitRepartition = 0.5f;
 
     bool doOnce = true;
-    Chronometer stepTimer = new Chronometer(5.0f, 1.0f);
+    float timeBetweenSteps = 0.5f;
+    float stepTimer;
     public int stepNumber = 10;
     // Use this for initialization
     void Start()
     {
+        stepTimer = Utility.StartTimer(timeBetweenSteps * 5);
         GenerateRandomInit();
     }
 
@@ -85,8 +43,8 @@ public class MapGenerator : MonoBehaviour
         {
             for (int j = -sizeY - 1; j <= sizeY + 1; j++)
             {
-                Vector2 pos = new Vector2(i, j);
-                bool empty = (pos.x > 2 || pos.x < -2) || (pos.y > 2 || pos.y < -2);
+                Vector2Int pos = new Vector2Int(i, j);
+                bool empty = (pos.x > 3 || pos.x < -3) || (pos.y > 3 || pos.y < -3);
                 bool notEmpty = (pos.x > sizeX - 2 || pos.x < -sizeX + 2) || (pos.y > sizeY - 2 || pos.y < -sizeY + 2);
                 if (Random.Range(0.0f, 1.0f) < celluleInitRepartition && empty || notEmpty)
                 {
@@ -102,14 +60,14 @@ public class MapGenerator : MonoBehaviour
 
     void CellularStep()
     {
-        List<Vector2> toDestroy = new List<Vector2>();
-        List<Vector2> toCreate = new List<Vector2>();
+        List<Vector2Int> toDestroy = new List<Vector2Int>();
+        List<Vector2Int> toCreate = new List<Vector2Int>();
 
         for (int i = -sizeX; i <= sizeX; i++)
         {
             for (int j = -sizeY; j <= sizeY; j++)
             {
-                Vector2 pos = new Vector2(i, j);
+                Vector2Int pos = new Vector2Int(i, j);
                 int neighborNmb = 0;
                 //check the number of neighbor
                 for (int dx = -1; dx <= 1; dx++)
@@ -118,7 +76,7 @@ public class MapGenerator : MonoBehaviour
                     {
                         if (dx == 0 && dy == 0)
                             continue;
-                        Vector2 neighborPos = pos + new Vector2(dx, dy);
+                        Vector2Int neighborPos = pos + new Vector2Int(dx, dy);
                         if (cellules.ContainsKey(neighborPos))
                             neighborNmb++;
                     }
@@ -140,13 +98,13 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-        foreach (Vector2 destroyedPos in toDestroy)
+        foreach (Vector2Int destroyedPos in toDestroy)
         {
             Destroy(cellules[destroyedPos]);
             cellules.Remove(destroyedPos);
             emptyCells.Add(destroyedPos);
         }
-        foreach (Vector2 createdPos in toCreate)
+        foreach (Vector2Int createdPos in toCreate)
         {
             cellules[createdPos] = CreateCellule(createdPos, Color.black);
             emptyCells.Remove(createdPos);
@@ -154,98 +112,235 @@ public class MapGenerator : MonoBehaviour
         stepNumber--;
     }
 
-    // Update is called once per frame
-    void Update()
+    void CalculateEmptyZones()
     {
-        stepTimer.Update(Time.deltaTime);
-        if (stepTimer.Over() && stepNumber >= 0)
+        foreach (Vector2Int emptCell in emptyCells)
         {
-            CellularStep();
-            stepTimer.Reset();
-        }
-
-        if(stepNumber < 0 && doOnce)
-        {
-            doOnce = false;
-            foreach (Vector2 emptCell in emptyCells)
+            bool doNewZone = true;
+            if (zones.Count != 0)
             {
-                bool doNewZone = true;
-                if (zones.Count != 0)
+                foreach (List<Vector2Int> zone in zones)
                 {
-                    foreach(List<Vector2> zone in zones)
+                    if (zone.Contains(emptCell))
                     {
-                        if(zone.Contains(emptCell))
-                        {
-                            doNewZone = false;
-                            break;
-                        }
+                        doNewZone = false;
+                        break;
                     }
                 }
+            }
 
-                if(!doNewZone)
+            if (!doNewZone)
+            {
+                continue;
+            }
+
+            int indexZone = zones.Count;
+            List<Vector2Int> newZone = new List<Vector2Int>();
+
+            List<Vector2Int> neightborNotInZone = new List<Vector2Int>();
+            neightborNotInZone.Add(emptCell);
+
+            while (neightborNotInZone.Count > 0)
+            {
+                List<Vector2Int> newNeightborhood = new List<Vector2Int>();
+                foreach (Vector2Int checkingCell in neightborNotInZone)
                 {
-                    continue;
-                }
-
-                int indexZone = zones.Count;
-                List<Vector2> newZone = new List<Vector2>();
-
-                List<Vector2> neightborNotInZone = new List<Vector2>();
-                neightborNotInZone.Add(emptCell);
-
-                while (neightborNotInZone.Count > 0)
-                {
-                    List<Vector2> newNeightborhood = new List<Vector2>();
-                    foreach(Vector2 checkingCell in neightborNotInZone)
+                    for (int dx = -1; dx <= 1; dx++)
                     {
-                        for (int dx = -1; dx <= 1; dx++)
+                        for (int dy = -1; dy <= 1; dy++)
                         {
-                            for (int dy = -1; dy <= 1; dy++)
-                            {
-                                if (dx == 0 && dy == 0)
-                                    continue;
+                            if (dx == 0 && dy == 0)
+                                continue;
 
-                                Vector2 neighborPos = checkingCell + new Vector2(dx, dy);
-                                if (!newZone.Contains(neighborPos) && !newNeightborhood.Contains(neighborPos) && !cellules.ContainsKey(neighborPos))
-                                {
-                                    newZone.Add(neighborPos);
-                                    newNeightborhood.Add(neighborPos);
-                                }
+                            Vector2Int neighborPos = checkingCell + new Vector2Int(dx, dy);
+                            if (!newZone.Contains(neighborPos) && !newNeightborhood.Contains(neighborPos) && !cellules.ContainsKey(neighborPos))
+                            {
+                                newZone.Add(neighborPos);
+                                newNeightborhood.Add(neighborPos);
                             }
                         }
                     }
-                    neightborNotInZone = newNeightborhood;
                 }
-                zones.Add(newZone);
+                neightborNotInZone = newNeightborhood;
             }
-            Debug.Log("Num Zones : " + zones.Count);
-            Debug.Log("Num Empt Cells : " + emptyCells.Count);
+            zones.Add(newZone);
+        }
+    }
 
-            List<List<Vector2>> zonesToDelete = new List<List<Vector2>>();
-            foreach (List<Vector2> zone in zones)
+    void RemoveLittleZones()
+    {
+        // Removing little zones and getting the biggest one
+        List<List<Vector2Int>> zonesToDelete = new List<List<Vector2Int>>();
+        foreach (List<Vector2Int> zone in zones)
+        {
+            if (zone.Count < 10)
+                zonesToDelete.Add(zone);
+        }
+        foreach (List<Vector2Int> zone in zonesToDelete)
+        {
+            foreach (Vector2Int cell in zone)
             {
-                if (zone.Count < 50)
-                    zonesToDelete.Add(zone);
+                cellules[cell] = CreateCellule(cell, Color.black);
+                emptyCells.Remove(cell);
+            }
+            zones.Remove(zone);
+        }
+    }
+
+    void JoinZones()
+    {
+        List<Vector2Int> biggestZone = new List<Vector2Int>();
+
+        foreach (List<Vector2Int> zone in zones)
+        {
+            if (biggestZone.Count < zone.Count)
+            {
+                biggestZone = zone;
+            }
+        }
+
+        foreach (List<Vector2Int> zone in zones)
+        {
+            if (zone.Count == biggestZone.Count)
+                continue;
+
+            Vector2Int zoneTopLeft = new Vector2Int(sizeX, sizeY);
+            Vector2Int zoneBotRight = new Vector2Int(-sizeX, -sizeY);
+
+            foreach(Vector2Int cell in zone)
+            {
+                if (zoneTopLeft.x > cell.x)
+                    zoneTopLeft.x = cell.x;
+                if (zoneTopLeft.y > cell.y)
+                    zoneTopLeft.y = cell.y;
+                if (zoneBotRight.x < cell.x)
+                    zoneBotRight.x = cell.x;
+                if (zoneBotRight.y < cell.y)
+                    zoneBotRight.y = cell.y;
             }
 
-            foreach(List<Vector2> zone in zonesToDelete)
+            Vector2Int center = zoneTopLeft + zoneBotRight;
+            center = new Vector2Int(center.x / 2, center.y / 2);
+
+            Vector2Int closestCell = center;
+            int multiplier = 1;
+            int traveledDist = 0;
+            while (closestCell == center)
             {
-                foreach (Vector2 cell in zone)
+                for(int dx = -1; dx <= 1; dx++)
                 {
-                    cellules[cell] = CreateCellule(cell, Color.black);
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        if (dx == 0 && dy == 0)
+                            continue;
+                        Vector2Int pos = center + new Vector2Int(dx * multiplier, dy * multiplier);
+                        if(emptyCells.Contains(pos) && !zone.Contains(pos))
+                        {
+                            closestCell = pos;
+                        }
+                    }
                 }
-                zones.Remove(zone);
+                multiplier++;
             }
 
-            foreach (List<Vector2> zone in zones)
+            Vector2Int direction = closestCell - center;
+            if(direction.x != 0)
+                direction.x /= Mathf.Abs(direction.x);
+            if (direction.y != 0)
+                direction.y /= Mathf.Abs(direction.y);
+            
+            /*
+            if (Mathf.Sign(direction.x) == Mathf.Sign(center.x) && Mathf.Sign(direction.y) == Mathf.Sign(center.y))
             {
-                Color color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f);
-                foreach (Vector2 cell in zone)
-                {
-                    CreateCellule(cell, color);
-                }
-                Debug.Log(color.ToString() + " : " + zone.Count);
+                direction.x *= -1;
+                direction.y *= -1;
             }
+            */
+            if (cellules.ContainsKey(center))
+            {
+                traveledDist = -1;
+                Vector2Int prevPos = center - direction * traveledDist;
+                while (cellules.ContainsKey(prevPos))
+                {
+                    traveledDist--;
+                    prevPos = center - direction * traveledDist;
+                }
+            }
+
+            List<Vector2Int> toDestroy = new List<Vector2Int>();
+            while (traveledDist <= multiplier + 1)
+            {
+                Vector2Int pos = center + direction * traveledDist;
+                if(cellules.ContainsKey(pos))
+                {
+                    toDestroy.Add(pos);
+                }
+
+                Vector2Int neightbor1 = new Vector2Int(0, 0);
+                Vector2Int neightbor2 = new Vector2Int(0, 0);
+                if (direction.x != 0 && direction.y != 0)
+                {
+                    neightbor1 = pos + new Vector2Int(direction.x, 0);
+                    neightbor2 = pos + new Vector2Int(0, direction.y);
+                }
+                else
+                {
+                    Vector2Int invertDirection = new Vector2Int(direction.y, direction.x);
+                    neightbor1 = pos - invertDirection;
+                    neightbor2 = pos + invertDirection;
+                }
+
+                if (cellules.ContainsKey(neightbor1))
+                    toDestroy.Add(neightbor1);
+                if (cellules.ContainsKey(neightbor2))
+                    toDestroy.Add(neightbor2);
+
+                traveledDist++;
+            }
+
+            foreach (Vector2Int destroyedPos in toDestroy)
+            {
+                if (!cellules.ContainsKey(destroyedPos))
+                    continue;
+                Destroy(cellules[destroyedPos]);
+                cellules.Remove(destroyedPos);
+                emptyCells.Add(destroyedPos);
+            }
+        }
+    }
+    
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Utility.IsOver(stepTimer) && stepNumber >= 0)
+        {
+            CellularStep();
+            stepTimer = Utility.StartTimer(timeBetweenSteps);
+        }
+
+        if (stepNumber < 0 && zones.Count == 0)
+        {
+            CalculateEmptyZones();
+            RemoveLittleZones();
+        }
+
+        if (stepNumber < 0 && zones.Count > 1)
+        {
+            JoinZones();
+
+            //Coloring little zones
+            // TODO : REMOVE OR COMMENT THIS 
+            stepNumber = 3;
+            stepTimer = Utility.StartTimer(timeBetweenSteps * 2);
+
+            zones.Clear();
+            CalculateEmptyZones();
+        }
+
+        if(zones.Count == 1)
+        {
+            Debug.Log("DONE");
         }
     }
 }
