@@ -5,22 +5,23 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     [Header("WorldGeneratorParams")]
+    [SerializeField] LevelParams[] levelParams;
+
     [Header("WorldGeneratorParams/Size")]
     [SerializeField] int sizeX = 40;
     [SerializeField] int sizeY = 40;
 
     [SerializeField] float celluleInitRepartition = 0.5f;
-    [SerializeField] int sizeChunk = 10;
     [SerializeField] int nbTreasure = 1;
 
     [SerializeField] GameObject cellulePrefab; 
     [SerializeField] GameObject floorPrefab;
 
     [Header("WorldGeneratorParams/Steps")]
-    [SerializeField] int numStep = 10;
+    [SerializeField] int numStep = 12;
     [SerializeField] int numStepAfterZone = 2;
-    [SerializeField] int numStepFinish = 2;
-    [SerializeField] float timeBetweenSteps = 0.5f;
+    [SerializeField] int numStepFinish = 10;
+    [SerializeField] float timeBetweenSteps = 0.1f;
 
     [Header("WorldGeneratorParams/Zones")]
     [SerializeField] int minZoneSize = 10;
@@ -55,19 +56,30 @@ public class MapGenerator : MonoBehaviour
     public List<Vector2Int> emptyCells = new List<Vector2Int>();
     public List<List<Vector2Int>> zones = new List<List<Vector2Int>>();
 
-    public List<Vector2Int> stairZone = new List<Vector2Int>();
-    public List<Vector2Int>[] treasureZones;
+    public List<Vector2Int> entranceZone = new List<Vector2Int>();
+    public Vector2Int entrancePlace = new Vector2Int(0, 0);
 
-    public Vector2Int[] treasurePlaces;
+    public List<Vector2Int> stairZone = new List<Vector2Int>();
     public Vector2Int stairPlace = new Vector2Int(0, 0);
 
+    public List<Vector2Int>[] treasureZones;
+    public Vector2Int[] treasurePlaces;
+
+    bool isLevelSet = false;
     bool isDone = false;
     bool hasFinishingMap = false;
     float stepTimer;
+
+    SceneManagement smInstance;
+
     // Use this for initialization
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
+        smInstance = FindObjectOfType<SceneManagement>();
+
         stepTimer = Utility.StartTimer(timeBetweenSteps * 5);
+        isLevelSet = false;
         GenerateRandomInit();
 
         treasureZones = new List<Vector2Int>[nbTreasure];
@@ -95,6 +107,17 @@ public class MapGenerator : MonoBehaviour
         cellule.transform.parent = transform;
         cellule.GetComponent<SpriteRenderer>().color = color;
         return cellule;
+    }
+
+    GameObject CreateSlate(Vector2 pos)
+    {
+        GameObject slate = Instantiate(floorPrefab);
+        slate.transform.position = pos;
+        slate.transform.parent = transform;
+        int index = Random.Range(0, spritesSlate.Length);
+        slate.GetComponent<SpriteRenderer>().sprite = spritesSlate[index];
+        slate.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        return slate;
     }
 
     void GenerateRandomInit()
@@ -229,7 +252,6 @@ public class MapGenerator : MonoBehaviour
 
     void RemoveLittleZones()
     {
-
         // Removing little zones and getting the biggest one
         List<List<Vector2Int>> zonesToDelete = new List<List<Vector2Int>>();
         List<Vector2Int> biggestZone = new List<Vector2Int>();
@@ -245,7 +267,12 @@ public class MapGenerator : MonoBehaviour
                 continue;
 
             bool assigned = false;
-            if (stairZone.Count == 0)
+            if(entranceZone.Count == 0)
+            {
+                entranceZone = zone;
+                assigned = true;
+            }
+            else if (stairZone.Count == 0)
             {
                 stairZone = zone;
                 assigned = true;
@@ -267,14 +294,18 @@ public class MapGenerator : MonoBehaviour
                 zonesToDelete.Add(zone);
         }
 
+        if (entranceZone.Count == 0)
+            entranceZone = biggestZone;
+
+        if (stairZone.Count == 0)
+            stairZone = biggestZone;
+
         for (int i = 0; i < treasureZones.Length; i++)
         {
             if (treasureZones[i].Count == 0)
                 treasureZones[i] = biggestZone;
         }
 
-        if (stairZone.Count == 0)
-            stairZone = biggestZone;
 
         foreach (List<Vector2Int> zone in zonesToDelete)
         {
@@ -471,6 +502,9 @@ public class MapGenerator : MonoBehaviour
             if(index == 0)
                 obj.GetComponent<SpriteRenderer>().sortingOrder = 1;
 
+            if (entranceZone.Contains(cell))
+                obj.GetComponent<SpriteRenderer>().color = Color.green;
+
             if (stairZone.Contains(cell))
                 obj.GetComponent<SpriteRenderer>().color = Color.gray;
 
@@ -566,35 +600,12 @@ public class MapGenerator : MonoBehaviour
 
     void SetTreasurePlaces()
     {
-        for (int i = 0; i < treasureZones.Length; i++)
-        {
-            int index = Random.Range(0, treasureZones[i].Count);
-            treasurePlaces[i] = treasureZones[i][index];
-
-            for (int dx = -1; dx <= 1; dx++)
-            {
-                for (int dy = -1; dy <= 1; dy++)
-                {
-                    if (dx == 0 && dy == 0)
-                        continue;
-                    Vector2Int neighborPos = treasurePlaces[i] + new Vector2Int(dx, dy);
-                    if (cells.ContainsKey(neighborPos))
-                    {
-                        Destroy(cells[neighborPos]);
-                        cells.Remove(neighborPos);
-                        emptyCells.Add(neighborPos);
-                        treasureZones[i].Add(neighborPos);
-                    }
-                }
-            }
-            Debug.Log(treasurePlaces[i].ToString());
-        }
     }
 
-    void SetStairsPlace()
+    void SetPlace(ref List<Vector2Int> varZone,ref Vector2Int varPlace)
     {
-        int index = Random.Range(0, stairZone.Count);
-        stairPlace = stairZone[index];
+        int index = Random.Range(0, varZone.Count);
+        varPlace = varZone[index];
         for (int dx = -1; dx <= 1; dx++)
         {
             for (int dy = -1; dy <= 1; dy++)
@@ -607,29 +618,33 @@ public class MapGenerator : MonoBehaviour
                     Destroy(cells[neighborPos]);
                     cells.Remove(neighborPos);
                     emptyCells.Add(neighborPos);
-                    stairZone.Add(neighborPos);
+                    varZone.Add(neighborPos);
                 }
             }
         }
-        Debug.Log(stairPlace.ToString());
+        CreateSlate(varPlace);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isLevelSet)
+            return;
+
         if (Utility.IsOver(stepTimer) && numStep >= 0)
         {
             CellularStep();
             stepTimer = Utility.StartTimer(timeBetweenSteps);
         }
 
-        if (numStep < 0 && zones.Count == 0)
+        if (Utility.IsOver(stepTimer) && numStep < 0 && zones.Count == 0)
         {
             CalculateEmptyZones();
             RemoveLittleZones();
+            stepTimer = Utility.StartTimer(timeBetweenSteps);
         }
 
-        if (numStep < 0 && zones.Count > 1)
+        if (Utility.IsOver(stepTimer) && numStep < 0 && zones.Count > 1)
         {
             JoinZones();
             
@@ -640,23 +655,50 @@ public class MapGenerator : MonoBehaviour
             CalculateEmptyZones();
         }
 
-        if(zones.Count == 1 && numStep < 0 && !hasFinishingMap)
+        if(Utility.IsOver(stepTimer) && zones.Count == 1 && numStep < 0 && !hasFinishingMap)
         {
             hasFinishingMap = true;
             numStep = numStepFinish;
+            stepTimer = Utility.StartTimer(timeBetweenSteps);
         }
 
-        if(zones.Count == 1 && numStep < 0 && hasFinishingMap && !isDone)
+        if(Utility.IsOver(stepTimer) && zones.Count == 1 && numStep < 0 && hasFinishingMap && !isDone)
         {
             RemoveImperfections();
 
-            SetTreasurePlaces();
-            SetStairsPlace();
+            SetPlace(ref entranceZone, ref entrancePlace);
+            SetPlace(ref stairZone, ref stairPlace);
+            for (int i = 0; i < treasureZones.Length; i++)
+            {
+                SetPlace(ref treasureZones[i], ref treasurePlaces[i]);
+            }
 
             SetSprites();
             isDone = true;
 
             Debug.Log("DONE");
+            smInstance.ChangeScene(SceneManagement.Scenes.GAME);
         }
+    }
+
+    public void SetLevel(int level)
+    {
+
+        if (levelParams[level] != null)
+        {
+            sizeX = levelParams[level].sizeX;
+            sizeY = levelParams[level].sizeY;
+
+            celluleInitRepartition = levelParams[level].celluleInitRepartition;
+            nbTreasure = levelParams[level].nbTreasure;
+
+            minZoneSize = levelParams[level].minZoneSize;
+            emptyZoneMidSize = levelParams[level].emptyZoneMidSize;
+            extWallsNotEmpty = levelParams[level].extWallsNotEmpty;
+
+            minNeighborNum = levelParams[level].minNeighborNum;
+            maxNeighborNum = levelParams[level].maxNeighborNum;
+        }
+        isLevelSet = true;
     }
 }
