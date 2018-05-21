@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+    const int NUM_LEVELS = 3;
+
     public SceneManagement sceneManagInstance;
     private SoundManager soundManagInstance;
 
@@ -13,6 +15,8 @@ public class GameManager : MonoBehaviour {
     private bool isGameWon = false;
 
     private int currentLevel = -1;
+
+    public MapGenerator levelObj;
 
     [Header("Levels")]
     [SerializeField] LevelParams[] levels;
@@ -38,11 +42,31 @@ public class GameManager : MonoBehaviour {
                 allowPlayerMovements = true;
                 isGameRunning = true;
 
+                MapGenerator mpGener = FindObjectOfType<MapGenerator>();
+                PlayerController player = FindObjectOfType<PlayerController>();
+                if (player != null && mpGener != null)
+                {
+                    player.transform.position = (Vector2)mpGener.entrancePlace;
+                }
+
                 break;
 
             case SceneManagement.Scenes.MAP_GENERATION:
+                if (levelObj != null)
+                    Destroy(levelObj);
+
                 currentLevel++;
-                FindObjectOfType<MapGenerator>().SetLevel(currentLevel);
+                Debug.Log("currentLevel : " + currentLevel);
+                MapGenerator temp = levelObj;
+                foreach (MapGenerator mapGener in FindObjectsOfType<MapGenerator>())
+                {
+                    if (levelObj == mapGener)
+                        Destroy(levelObj.gameObject);
+                    else
+                        temp = mapGener;
+                }
+                levelObj = temp;
+                levelObj.SetLevel(currentLevel);
                 allowPlayerMovements = true;
                 break;
 
@@ -75,6 +99,24 @@ public class GameManager : MonoBehaviour {
     public void SetPlayerSpawn()
     {
 
+    }
+
+    public void EndLevel()
+    {
+        if(currentLevel == NUM_LEVELS - 1)
+        {
+            sceneManagInstance.ChangeScene(SceneManagement.Scenes.MAP_GENERATION);
+        }
+        else
+        {
+            EndGame(true);
+        }
+    }
+
+    public void EndGame(bool hasWon)
+    {
+        isGameWon = hasWon;
+        sceneManagInstance.ChangeScene(SceneManagement.Scenes.END_GAME);
     }
 }
 

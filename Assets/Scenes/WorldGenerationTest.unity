@@ -225,10 +225,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  sizeX: 40
-  sizeY: 40
+  sizeX: 20
+  sizeY: 20
   celluleInitRepartition: 0.49
-  sizeChunk: 10
   nbTreasure: 1
   cellulePrefab: {fileID: 1350774210349298, guid: 0b33e6e9d8653274c80be89676ae1b95,
     type: 2}
@@ -238,7 +237,7 @@ MonoBehaviour:
   numStepAfterZone: 2
   numStepFinish: 10
   timeBetweenSteps: 0.5
-  minZoneSize: 80
+  minZoneSize: 10
   emptyZoneMidSize: 3
   extWallsNotEmpty: 2
   minNeighborNum: 3
@@ -292,12 +291,17 @@ MonoBehaviour:
   - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
   spritesSlate:
   - {fileID: 21300000, guid: 3a02840f547e03241b059691eff18e0f, type: 3}
+  stairPrefab: {fileID: 1231617557795284, guid: 98b07a7df5aa08e449a07eb20f47fa93,
+    type: 2}
+  treasurePrefab: {fileID: 1090192995269288, guid: 4c5c5445dd8d56e42ab87db15cb6d0a6,
+    type: 2}
   emptyCells: []
   entranceZone: []
   entrancePlace: {x: 0, y: 0}
   stairZone: []
   stairPlace: {x: 0, y: 0}
   treasurePlaces: []
+  isLevelSet: 0
 --- !u!4 &772741568
 Transform:
   m_ObjectHideFlags: 0
@@ -345,7 +349,6 @@ MonoBehaviour:
   sizeX: 25
   sizeY: 25
   celluleInitRepartition: 0.52
-  sizeChunk: 10
   nbTreasure: 1
   cellulePrefab: {fileID: 1350774210349298, guid: 0b33e6e9d8653274c80be89676ae1b95,
     type: 2}
@@ -409,12 +412,15 @@ MonoBehaviour:
   - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
   spritesSlate:
   - {fileID: 21300000, guid: 3a02840f547e03241b059691eff18e0f, type: 3}
+  stairPrefab: {fileID: 0}
+  treasurePrefab: {fileID: 0}
   emptyCells: []
   entranceZone: []
   entrancePlace: {x: 0, y: 0}
   stairZone: []
   stairPlace: {x: 0, y: 0}
   treasurePlaces: []
+  isLevelSet: 0
 --- !u!4 &1868680911
 Transform:
   m_ObjectHideFlags: 0
@@ -462,7 +468,6 @@ MonoBehaviour:
   sizeX: 35
   sizeY: 35
   celluleInitRepartition: 0.52
-  sizeChunk: 10
   nbTreasure: 5
   cellulePrefab: {fileID: 1350774210349298, guid: 0b33e6e9d8653274c80be89676ae1b95,
     type: 2}
@@ -526,12 +531,15 @@ MonoBehaviour:
   - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
   spritesSlate:
   - {fileID: 21300000, guid: 3a02840f547e03241b059691eff18e0f, type: 3}
+  stairPrefab: {fileID: 0}
+  treasurePrefab: {fileID: 0}
   emptyCells: []
   entranceZone: []
   entrancePlace: {x: 0, y: 0}
   stairZone: []
   stairPlace: {x: 0, y: 0}
   treasurePlaces: []
+  isLevelSet: 0
 --- !u!4 &2036706463
 Transform:
   m_ObjectHideFlags: 0

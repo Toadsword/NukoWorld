@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour {
     float slowTimeTimer;
     bool blockedSlowTimeTimer;
 
+    bool onStairs = false;
+    GameManager gmInstance;
+
     Vector2 lastAngle;
     Transform gun;
     Transform gunCannon;
@@ -40,6 +43,8 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        gmInstance = FindObjectOfType<GameManager>();
+
         rigid = GetComponent<Rigidbody2D>();
         gun = transform.Find("GunObject");
         gunCannon = gun.Find("Gun").Find("CannonOutputPoint");
@@ -56,6 +61,7 @@ public class PlayerController : MonoBehaviour {
 
         slowTimeTimer = slowTime;
         blockedSlowTimeTimer = false;
+        onStairs = false;
     }
 	
 	// Update is called once per frame
@@ -99,6 +105,11 @@ public class PlayerController : MonoBehaviour {
 
                 fireRateCd = Utility.StartTimer(fireRate);
             }
+        }
+
+        if(Input.GetButton("Action") && onStairs)
+        {
+            gmInstance.EndLevel();
         }
 
         if (Input.GetButton("slowDownTime") && !blockedSlowTimeTimer)
@@ -145,6 +156,31 @@ public class PlayerController : MonoBehaviour {
         {
             //TODO : Trigger death;
             Debug.Log("PLAYER IS DEAD");
+            gmInstance.EndGame(false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Stairs")
+        {
+            onStairs = true;
+            Debug.Log("onStairs : " + onStairs.ToString());
+        }
+
+        if (collision.tag == "Treasure")
+        {
+            Debug.Log("ItemPickup");
+            Destroy(collision.gameObject);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Stairs")
+        {
+            onStairs = false;
+            Debug.Log("onStairs : " + onStairs.ToString());
         }
     }
 }

@@ -113,6 +113,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &214566303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 214566304}
+  - component: {fileID: 214566305}
+  m_Layer: 0
+  m_Name: DemonCreator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &214566304
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 214566303}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 23.383886, y: 5.2960944, z: -0.7786098}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &214566305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 214566303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25788387bcfaaf14ea59977d868fb58b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicDemonStats: {fileID: 11400000, guid: 010d4e9f9efbe0b498eb62af50887caa, type: 2}
+  highDemonStats: {fileID: 11400000, guid: 16c82f86cea54b84caac6a3d57fc980f, type: 2}
+  rushingDemonStats: {fileID: 11400000, guid: 2dc65af5da4c8654dacfef96a773c251, type: 2}
+  demonPrefab: {fileID: 1478019182901646, guid: beeaf0a991de0984c88812c047546b0c,
+    type: 2}
 --- !u!1 &518508733
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,9 +471,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelParams:
-  - {fileID: 11400000, guid: 3f62da6c0e393164589db9cd1f607f22, type: 2}
-  - {fileID: 11400000, guid: 7aa5a9b0218e98c41b143c7eae0c293f, type: 2}
-  - {fileID: 11400000, guid: 68e99d09c0685d948a412d94aede0f70, type: 2}
+  - {fileID: 11400000, guid: e55e8477184626142bf18267ecc820a8, type: 2}
+  - {fileID: 11400000, guid: 9e7d8b990e684f147a3cbd553f57d79f, type: 2}
+  - {fileID: 11400000, guid: 25d53218de754b744b7faab617325a05, type: 2}
   sizeX: 40
   sizeY: 40
   celluleInitRepartition: 0.49
@@ -440,7 +485,7 @@ MonoBehaviour:
   numStep: 12
   numStepAfterZone: 2
   numStepFinish: 10
-  timeBetweenSteps: 0.01
+  timeBetweenSteps: 0.1
   minZoneSize: 80
   emptyZoneMidSize: 3
   extWallsNotEmpty: 15
@@ -495,12 +540,17 @@ MonoBehaviour:
   - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
   spritesSlate:
   - {fileID: 21300000, guid: 3a02840f547e03241b059691eff18e0f, type: 3}
+  stairPrefab: {fileID: 1231617557795284, guid: 98b07a7df5aa08e449a07eb20f47fa93,
+    type: 2}
+  treasurePrefab: {fileID: 1090192995269288, guid: 4c5c5445dd8d56e42ab87db15cb6d0a6,
+    type: 2}
   emptyCells: []
   entranceZone: []
   entrancePlace: {x: 0, y: 0}
   stairZone: []
   stairPlace: {x: 0, y: 0}
   treasurePlaces: []
+  isLevelSet: 0
 --- !u!4 &1743024397
 Transform:
   m_ObjectHideFlags: 0

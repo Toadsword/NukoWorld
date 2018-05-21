@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Demon
   - Bullet
+  - Stairs
+  - Treasure
   layers:
   - Default
   - TransparentFX
@@ -15,10 +17,10 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Player & Demons
+  - Bullet
+  - Walls
+  - Items
   - 
   - 
   - 
@@ -51,4 +53,7 @@ TagManager:
     locked: 0
   - name: Wall
     uniqueID: 920615175
+    locked: 0
+  - name: UI
+    uniqueID: 2750627839
     locked: 0

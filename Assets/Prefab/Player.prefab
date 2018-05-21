@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224276777376209206}
   - component: {fileID: 222989051492720372}
   - component: {fileID: 114576896370218722}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: ClockBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 223221162969893150}
   - component: {fileID: 114703369699372614}
   - component: {fileID: 114322776970063552}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: PlayerUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4893937729305842}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GunObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4435640328831156}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CannonOutputPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4554430315177526}
   - component: {fileID: 212219176642322980}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 212588936023861242}
   - component: {fileID: 114315843697884210}
   - component: {fileID: 50994297448829408}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 224188487406894794}
   - component: {fileID: 222758269737190008}
   - component: {fileID: 114729744614908384}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Clock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1721259678282734}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.15302658, y: -0.16769493, z: 0}
+  m_LocalPosition: {x: -1.28, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224033928778889600}
@@ -202,7 +202,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &114315843697884210
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -351,8 +351,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1373840363
+  m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: e874e6c3767bc1d419e4e44dd548a516, type: 3}
   m_Color: {r: 0.2688679, g: 0.59688604, b: 1, a: 1}
@@ -396,8 +396,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1373840363
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e874e6c3767bc1d419e4e44dd548a516, type: 3}
   m_Color: {r: 0.4314918, g: 0.9528302, b: 0.35506406, a: 1}
@@ -438,8 +438,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1544339457
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &224033928778889600
 RectTransform:

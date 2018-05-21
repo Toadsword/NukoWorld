@@ -52,6 +52,10 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] Sprite[] spritesFloor;
     [SerializeField] Sprite[] spritesSlate;
 
+    [Header("Prefabs")]
+    [SerializeField] GameObject stairPrefab;
+    [SerializeField] GameObject treasurePrefab;
+
     public Dictionary<Vector2Int, GameObject> cells = new Dictionary<Vector2Int, GameObject>();
     public List<Vector2Int> emptyCells = new List<Vector2Int>();
     public List<List<Vector2Int>> zones = new List<List<Vector2Int>>();
@@ -65,9 +69,9 @@ public class MapGenerator : MonoBehaviour
     public List<Vector2Int>[] treasureZones;
     public Vector2Int[] treasurePlaces;
 
-    bool isLevelSet = false;
+    public bool isLevelSet = false;
     bool isDone = false;
-    bool hasFinishingMap = false;
+    bool hasFinishedMap = false;
     float stepTimer;
 
     SceneManagement smInstance;
@@ -80,7 +84,6 @@ public class MapGenerator : MonoBehaviour
 
         stepTimer = Utility.StartTimer(timeBetweenSteps * 5);
         isLevelSet = false;
-        GenerateRandomInit();
 
         treasureZones = new List<Vector2Int>[nbTreasure];
         treasurePlaces = new Vector2Int[nbTreasure];
@@ -372,6 +375,9 @@ public class MapGenerator : MonoBehaviour
                     }
                 }
                 multiplier++;
+
+                if (multiplier > 29)
+                    break;
             }
 
             Vector2Int direction = closestCell - center;
@@ -388,6 +394,9 @@ public class MapGenerator : MonoBehaviour
                 {
                     traveledDist--;
                     prevPos = center - direction * traveledDist;
+
+                    if (traveledDist < 29)
+                        break;
                 }
 
                 if (!(prevPos.x > -sizeX && prevPos.x < sizeX && prevPos.y > -sizeY && prevPos.y < sizeY))
@@ -598,11 +607,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    void SetTreasurePlaces()
-    {
-    }
-
-    void SetPlace(ref List<Vector2Int> varZone,ref Vector2Int varPlace)
+    void SetPlace(ref List<Vector2Int> varZone,ref Vector2Int varPlace, GameObject prefab)
     {
         int index = Random.Range(0, varZone.Count);
         varPlace = varZone[index];
@@ -612,7 +617,7 @@ public class MapGenerator : MonoBehaviour
             {
                 if (dx == 0 && dy == 0)
                     continue;
-                Vector2Int neighborPos = stairPlace + new Vector2Int(dx, dy);
+                Vector2Int neighborPos = varPlace + new Vector2Int(dx, dy);
                 if (cells.ContainsKey(neighborPos))
                 {
                     Destroy(cells[neighborPos]);
@@ -623,6 +628,12 @@ public class MapGenerator : MonoBehaviour
             }
         }
         CreateSlate(varPlace);
+
+        if(prefab != null)
+        {
+            GameObject obj = Instantiate(prefab, (Vector2)varPlace, prefab.transform.rotation);
+            obj.transform.parent = transform;
+        }
     }
 
     // Update is called once per frame
@@ -655,22 +666,22 @@ public class MapGenerator : MonoBehaviour
             CalculateEmptyZones();
         }
 
-        if(Utility.IsOver(stepTimer) && zones.Count == 1 && numStep < 0 && !hasFinishingMap)
+        if(Utility.IsOver(stepTimer) && zones.Count == 1 && numStep < 0 && !hasFinishedMap)
         {
-            hasFinishingMap = true;
+            hasFinishedMap = true;
             numStep = numStepFinish;
             stepTimer = Utility.StartTimer(timeBetweenSteps);
         }
 
-        if(Utility.IsOver(stepTimer) && zones.Count == 1 && numStep < 0 && hasFinishingMap && !isDone)
+        if(Utility.IsOver(stepTimer) && zones.Count == 1 && numStep < 0 && hasFinishedMap && !isDone)
         {
             RemoveImperfections();
 
-            SetPlace(ref entranceZone, ref entrancePlace);
-            SetPlace(ref stairZone, ref stairPlace);
+            SetPlace(ref entranceZone, ref entrancePlace, null);
+            SetPlace(ref stairZone, ref stairPlace, stairPrefab);
             for (int i = 0; i < treasureZones.Length; i++)
             {
-                SetPlace(ref treasureZones[i], ref treasurePlaces[i]);
+                SetPlace(ref treasureZones[i], ref treasurePlaces[i], treasurePrefab);
             }
 
             SetSprites();
@@ -683,7 +694,6 @@ public class MapGenerator : MonoBehaviour
 
     public void SetLevel(int level)
     {
-
         if (levelParams[level] != null)
         {
             sizeX = levelParams[level].sizeX;
@@ -699,6 +709,7 @@ public class MapGenerator : MonoBehaviour
             minNeighborNum = levelParams[level].minNeighborNum;
             maxNeighborNum = levelParams[level].maxNeighborNum;
         }
+        GenerateRandomInit();
         isLevelSet = true;
     }
 }
