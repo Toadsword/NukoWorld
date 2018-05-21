@@ -9,9 +9,7 @@ public class GameManager : MonoBehaviour {
 
     public SceneManagement sceneManagInstance;
     private SoundManager soundManagInstance;
-
-    public bool isGameRunning = false;
-    public bool allowPlayerMovements = true;
+    
     private bool isGameWon = false;
 
     private int currentLevel = -1;
@@ -35,12 +33,7 @@ public class GameManager : MonoBehaviour {
         switch (scene)
         {
             case SceneManagement.Scenes.GAME:
-                SetPlayerSpawn();
-
                 //soundManagInstance.PlayMusic(SoundManager.MusicList.GAME_MUSIC);
-
-                allowPlayerMovements = true;
-                isGameRunning = true;
 
                 MapGenerator mpGener = FindObjectOfType<MapGenerator>();
                 PlayerController player = FindObjectOfType<PlayerController>();
@@ -67,27 +60,24 @@ public class GameManager : MonoBehaviour {
                 }
                 levelObj = temp;
                 levelObj.SetLevel(currentLevel);
-                allowPlayerMovements = true;
                 break;
 
             case SceneManagement.Scenes.MENU:
                 //soundManagInstance.PlayMusic(SoundManager.MusicList.MENU_MUSIC);
-                allowPlayerMovements = false;
-                isGameRunning = false;
                 break;
 
             case SceneManagement.Scenes.END_GAME:
                 //soundManagInstance.PlayMusic(SoundManager.MusicList.NONE);
-                allowPlayerMovements = false;
-                isGameRunning = false;                
                 
                 if (isGameWon)
                 {
                     GameObject.Find("CanvasEndGame").transform.Find("VictoryPanel").gameObject.SetActive(true);
+                    GameObject.Find("CanvasEndGame").transform.Find("DefeatPanel").gameObject.SetActive(false);
                     // soundManagInstance.PlaySound(SoundManager.SoundList.WIN_MUSIC);
                 }
                 else
                 {
+                    GameObject.Find("CanvasEndGame").transform.Find("VictoryPanel").gameObject.SetActive(false);
                     GameObject.Find("CanvasEndGame").transform.Find("DefeatPanel").gameObject.SetActive(true);
                     // soundManagInstance.PlaySound(SoundManager.SoundList.LOSE_MUSIC);
                 }
@@ -96,14 +86,9 @@ public class GameManager : MonoBehaviour {
         } // End switch
     }
 
-    public void SetPlayerSpawn()
-    {
-
-    }
-
     public void EndLevel()
     {
-        if(currentLevel == NUM_LEVELS - 1)
+        if(currentLevel != NUM_LEVELS - 1)
         {
             sceneManagInstance.ChangeScene(SceneManagement.Scenes.MAP_GENERATION);
         }
