@@ -85,9 +85,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e55e8477184626142bf18267ecc820a8, type: 2}
   - {fileID: 11400000, guid: 9e7d8b990e684f147a3cbd553f57d79f, type: 2}
   - {fileID: 11400000, guid: 25d53218de754b744b7faab617325a05, type: 2}
-  levelNum: 1
-  sizeX: 40
-  sizeY: 40
+  levelNum: 0
+  sizeX: 20
+  sizeY: 20
   celluleInitRepartition: 0.49
   nbTreasure: 1
   cellulePrefab: {fileID: 1350774210349298, guid: 0b33e6e9d8653274c80be89676ae1b95,

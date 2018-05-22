@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
     {
         DontDestroyOnLoad(gameObject);
         sceneManagInstance = FindObjectOfType<SceneManagement>();
-        //soundManagInstance = FindObjectOfType<SoundManager>();
+        soundManagInstance = FindObjectOfType<SoundManager>();
         currentLevel = -1;
     }
 	

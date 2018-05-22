@@ -90,8 +90,8 @@ public class MapGenerator : MonoBehaviour
 
         stepTimer = Utility.StartTimer(timeBetweenSteps * 5);
         isLevelSet = false;
-        
-        SetLevel(levelNum);
+        if(smInstance == null)
+            SetLevel(levelNum);
     }
 
     GameObject CreateCellule(Vector2 pos, Color color)
@@ -510,12 +510,12 @@ public class MapGenerator : MonoBehaviour
             if(index == 0)
                 obj.GetComponent<SpriteRenderer>().sortingOrder = 1;
 
+            /* DEBUG COLORING TILES TO SHOW ZONES
             if (entranceZone.Contains(cell))
                 obj.GetComponent<SpriteRenderer>().color = Color.green;
 
             if (stairZone.Contains(cell))
                 obj.GetComponent<SpriteRenderer>().color = Color.gray;
-
             for (int i = 0; i < treasureZones.Length; i++)
             {
                 if (treasureZones[i].Contains(cell))
@@ -523,7 +523,8 @@ public class MapGenerator : MonoBehaviour
                     obj.GetComponent<SpriteRenderer>().color = Color.yellow;
                     continue;
                 }
-            }                
+            }  
+            */
         }
 
         foreach(KeyValuePair<Vector2Int, GameObject> cell in cells)
