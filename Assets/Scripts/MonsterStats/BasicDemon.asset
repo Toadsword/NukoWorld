@@ -14,7 +14,7 @@ MonoBehaviour:
   demonName: Basic Demon
   moveSpeed: 3
   bulletSpeed: 8
-  bulletScale: 1.2
+  bulletScale: 0.3
   fireRate: 2
   healthPoint: 3
   doTripleShot: 0

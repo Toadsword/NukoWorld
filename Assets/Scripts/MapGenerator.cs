@@ -144,6 +144,11 @@ public class MapGenerator : MonoBehaviour
 
         while (multiplierX * chunkSize.x < sizeX * 2 && multiplierY * chunkSize.y < sizeY * 2)
         {
+            // Don't spawn a demon on the player !
+            if(chunkSize.x * multiplierX < entrancePlace.x &&  entrancePlace.x < chunkSize.x * (multiplierX + 1) &&
+               chunkSize.y * multiplierY < entrancePlace.y && entrancePlace.y < chunkSize.y * (multiplierY + 1))
+                multiplierX++;
+
             for (int dx = -sizeX + chunkSize.x * multiplierX; dx <= -sizeX + chunkSize.x * (multiplierX + 1); dx++)
             {
                 for (int dy = -sizeY + chunkSize.y * multiplierY; dy <= -sizeY + chunkSize.y * (multiplierY + 1); dy++)
@@ -161,7 +166,7 @@ public class MapGenerator : MonoBehaviour
                 if (demonCreated == numDemonsPerChunk)
                     break;
             }
-            if (multiplierX * chunkSize.x > sizeX * 2)
+            if ((multiplierX + 1) * chunkSize.x > sizeX * 2)
             {
                 multiplierX = 0;
                 multiplierY++;
