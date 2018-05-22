@@ -228,6 +228,17 @@ public class DemonBehavior : MonoBehaviour {
             playerInSightRange = true;
             Debug.Log("player in sight");
         }
+        else if (collision.transform.tag == "Bullet" && !isDead
+            && Mathf.Abs(collision.transform.position.x - transform.position.x) < 1.0f
+            && Mathf.Abs(collision.transform.position.y - transform.position.y) < 1.0f)
+        {
+            BulletBehavior hitted = collision.gameObject.GetComponent<BulletBehavior>();
+            if (hitted.isFriendly)
+            {
+                GetHit(hitted.damage);
+                Destroy(collision.gameObject);
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -236,19 +247,6 @@ public class DemonBehavior : MonoBehaviour {
         {
             playerInSightRange = false;
             Debug.Log("player not in sight");
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "Bullet" && !isDead)
-        {
-            BulletBehavior hitted = collision.gameObject.GetComponent<BulletBehavior>();
-            if (hitted.isFriendly)
-            {
-                GetHit(hitted.damage);
-                Destroy(collision.gameObject);
-            }
         }
     }
 }
