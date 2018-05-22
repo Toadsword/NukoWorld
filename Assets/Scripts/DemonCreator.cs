@@ -23,6 +23,7 @@ public class DemonCreator : MonoBehaviour {
     {
         GameObject demon = Instantiate(demonPrefab, position, demonPrefab.transform.rotation);
         demon.transform.parent = transform;
+        Debug.Log("NIQUE TA MERE");
 
         DemonStats demonStats = basicDemonStats;
         switch(demonType)

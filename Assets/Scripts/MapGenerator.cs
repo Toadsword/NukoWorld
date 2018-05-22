@@ -99,7 +99,6 @@ public class MapGenerator : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         smInstance = FindObjectOfType<SceneManagement>();
-        dcInstance = FindObjectOfType<DemonCreator>();
 
         stepTimer = Utility.StartTimer(timeBetweenSteps * 5);
         isLevelSet = false;
@@ -701,6 +700,9 @@ public class MapGenerator : MonoBehaviour
         if (!isLevelSet)
             return;
 
+        if (dcInstance == null)
+            dcInstance = FindObjectOfType<DemonCreator>();
+
         if (Utility.IsOver(stepTimer) && numStep >= 0)
         {
             CellularStep();
@@ -775,6 +777,8 @@ public class MapGenerator : MonoBehaviour
             numDemonsPerChunk = levelParams[level].numDemonsPerChunk;
             maxLevelDemon = levelParams[level].maxLevelDemon;
         }
+        chunkSize *= 2; // Because of the size doubled
+
         levelNum = level;
 
         treasureZones = new List<Vector2Int>[nbTreasure];
