@@ -24,6 +24,10 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] GameObject particlePrefab;
     [SerializeField] GameObject cursor;
 
+    [Header("Sounds")]
+    [SerializeField] float timeBetweenFootsteps = 0.3f;
+    float footStepsTimer;
+
     public List<ObjBehavior.EffectName> holdingItems;
 
     // Cd means Cooldown
@@ -34,21 +38,23 @@ public class PlayerController : MonoBehaviour {
 
     bool onStairs = false;
     GameManager gmInstance;
+    SoundManager smInstance;
 
     Vector2 lastAngle;
     Transform gun;
     Transform gunCannon;
     Image clock;
     Image clockBackground;
-
     BulletData bulletData;
-
     Rigidbody2D rigid;
+
+    AudioSource clockSound;
 
 	// Use this for initialization
 	void Start ()
     {
         gmInstance = FindObjectOfType<GameManager>();
+        smInstance = FindObjectOfType<SoundManager>();
 
         rigid = GetComponent<Rigidbody2D>();
         gun = transform.Find("GunObject");
@@ -66,6 +72,7 @@ public class PlayerController : MonoBehaviour {
         holdingItems = new List<ObjBehavior.EffectName>();
 
         fireRateCd = 0.0f;
+        footStepsTimer = 0.0f;
 
         slowTimeTimer = slowTime;
         blockedSlowTimeTimer = false;
@@ -77,6 +84,12 @@ public class PlayerController : MonoBehaviour {
     {
         UpdateGunPosition();
         ManageInputs();
+        
+        if(Utility.IsOver(footStepsTimer))
+        {
+            footStepsTimer = Utility.StartTimer(timeBetweenFootsteps);
+            smInstance.PlaySound(SoundManager.SoundList.WALK);
+        }
     }
 
     private void UpdateGunPosition()
@@ -112,16 +125,21 @@ public class PlayerController : MonoBehaviour {
                 BulletCreator.CreateBullet(bulletPrefab, bulletData);
 
                 fireRateCd = Utility.StartTimer(fireRate);
+                smInstance.PlaySound(SoundManager.SoundList.GUN_FIRE);
             }
         }
 
         if(Input.GetButton("Action") && onStairs)
         {
             gmInstance.EndLevel();
+            smInstance.PlaySound(SoundManager.SoundList.STAIRS);
         }
 
         if (Input.GetButton("slowDownTime") && !blockedSlowTimeTimer)
         {
+            if (clockSound == null)
+                clockSound = smInstance.PlaySound(SoundManager.SoundList.CLOCK, slowTimeTimer);
+
             slowTimeTimer -= Time.deltaTime / Time.timeScale;
 
             if (slowTimeTimer > 0.0f)
@@ -136,6 +154,12 @@ public class PlayerController : MonoBehaviour {
         }
         else
         {
+            if (clockSound != null)
+            {
+                smInstance.StopSound(clockSound);
+                clockSound = null;
+            }
+
             slowTimeTimer += Time.deltaTime * slowTimeRecoveryScale;
             Time.timeScale = 1.0f;
 
@@ -165,6 +189,7 @@ public class PlayerController : MonoBehaviour {
             //TODO : Trigger death;
             Debug.Log("PLAYER IS DEAD");
             gmInstance.EndGame(false);
+            smInstance.PlaySound(SoundManager.SoundList.DEATH);
         }
     }
 
@@ -173,13 +198,6 @@ public class PlayerController : MonoBehaviour {
         if(collision.tag == "Stairs")
         {
             onStairs = true;
-            Debug.Log("onStairs : " + onStairs.ToString());
-        }
-
-        if (collision.tag == "Treasure")
-        {
-            Debug.Log("ItemPickup");
-            Destroy(collision.gameObject);
         }
     }
 
@@ -188,7 +206,6 @@ public class PlayerController : MonoBehaviour {
         if (collision.tag == "Stairs")
         {
             onStairs = false;
-            Debug.Log("onStairs : " + onStairs.ToString());
         }
     }
 }

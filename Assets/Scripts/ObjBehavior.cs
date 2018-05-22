@@ -17,21 +17,25 @@ public class ObjBehavior : MonoBehaviour {
     Vector2 basePosition;
     float maxHeightAnimation = 0.2f;
 
+    SoundManager smInstance;
+
     private void Start()
     {
         basePosition = transform.position;
+        smInstance = FindObjectOfType<SoundManager>();
     }
+
     private void Update()
     {
         float deltaH = Mathf.Sin(Time.time) * maxHeightAnimation;
-        transform.position = basePosition + new Vector2(deltaH, deltaH);
+        transform.position = basePosition + new Vector2(0, deltaH);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.tag == "Player")
         {
-            Debug.Log("Adding item to player");
+            smInstance.PlaySound(SoundManager.SoundList.ITEM_PICKUP);
             AddItemToPlayer(collision.gameObject.GetComponent<PlayerController>());
             Destroy(gameObject);
         }

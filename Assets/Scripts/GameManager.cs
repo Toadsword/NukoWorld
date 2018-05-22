@@ -31,7 +31,10 @@ public class GameManager : MonoBehaviour {
         switch (scene)
         {
             case SceneManagement.Scenes.GAME:
-                //soundManagInstance.PlayMusic(SoundManager.MusicList.GAME_MUSIC);
+                if(currentLevel != 2)
+                    soundManagInstance.PlayMusic(SoundManager.MusicList.GAME_MUSIC_1);
+                else
+                    soundManagInstance.PlayMusic(SoundManager.MusicList.GAME_MUSIC_2);
 
                 MapGenerator mpGener = FindObjectOfType<MapGenerator>();
                 PlayerController player = FindObjectOfType<PlayerController>();
@@ -65,7 +68,7 @@ public class GameManager : MonoBehaviour {
 
             case SceneManagement.Scenes.MENU:
                 isGameRunning = false;
-                //soundManagInstance.PlayMusic(SoundManager.MusicList.MENU_MUSIC);
+                soundManagInstance.PlayMusic(SoundManager.MusicList.MENU_MUSIC);
                 break;
 
             case SceneManagement.Scenes.END_GAME:

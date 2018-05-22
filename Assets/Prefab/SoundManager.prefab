@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1771925333161936
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,28 +176,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61c92b75e6593fd4ba342afacb8f123d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: 5d4de9d1ad8867042b3943561a3f620d, type: 2}
-  dashClip: {fileID: 8300000, guid: 54a94650d4c81574cae76da82cd6992c, type: 3}
-  jetpackClip: {fileID: 8300000, guid: 264aac097a663cf40a8383156fd4a1a2, type: 3}
-  clockClip: {fileID: 8300000, guid: a5baec7704bad2a43a04da991e204487, type: 3}
-  bombMeshClip: {fileID: 8300000, guid: 30f7922767845ee439f234e5e8b0c061, type: 3}
-  bombExplosionClip: {fileID: 8300000, guid: e501f9b0326d76b45b58c4eda6b9f22f, type: 3}
-  deathClip: {fileID: 8300000, guid: 0bc2cd93942046b4c9c43a86cac04bc1, type: 3}
-  menuSelection: {fileID: 8300000, guid: 5ab583206c3eeb44dbadcd1eb5d18059, type: 3}
-  menuValidation: {fileID: 8300000, guid: 038766589208ca145899b8589bb0e909, type: 3}
-  trainClip: {fileID: 8300000, guid: 84e418fd906d6d643be8c821051967d0, type: 3}
-  boatClip: {fileID: 8300000, guid: f70a7469e04ac2c4d84aaa9e6283643d, type: 3}
-  walkClip1: {fileID: 8300000, guid: 063e93b57e034944880c639935445437, type: 3}
-  walkClip2: {fileID: 8300000, guid: 5332d7a477091f54385b1d38dc3a567a, type: 3}
-  walkClip3: {fileID: 8300000, guid: 51089dbb3268eac49819f98d3466974f, type: 3}
-  carSoundClip1: {fileID: 8300000, guid: 02a1eb070cfcdea42a8b60f20e653c4c, type: 3}
-  carSoundClip2: {fileID: 8300000, guid: 097800788a4e8ea4584204fe33c4d421, type: 3}
-  carSoundClip3: {fileID: 8300000, guid: 0c2fe53532cb76047bcbaa70894f89bb, type: 3}
-  menuMusicClip: {fileID: 8300000, guid: afb12929ea220b5448ee5155c829afdf, type: 3}
-  gameMusicClip: {fileID: 8300000, guid: e8e1cf715f3d8ef4fbd6181027fe3b9c, type: 3}
-  winMusicClip: {fileID: 8300000, guid: a02723891a01c514d8ca59a3a436830d, type: 3}
-  loseMusicClip: {fileID: 8300000, guid: 60be4f7b520b8364296fc70d6098fba3, type: 3}
-  emitterPrefab: {fileID: 1514087218533426, guid: 99fe1b946690db04ead16d6f2d1232f7,
+  audioMixer: {fileID: 24100000, guid: a8cd2287c27cbe747b0e0292580f465f, type: 2}
+  clockClip: {fileID: 8300000, guid: 23f0fa250d1d6f2448ca633ac9d897a5, type: 3}
+  deathClip: {fileID: 8300000, guid: 970b682576bd8e349a74fc5ea148119b, type: 3}
+  getItemClip: {fileID: 8300000, guid: 6b7c38818fcde41428a2d2c08c9174a4, type: 3}
+  gunFireClip: {fileID: 8300000, guid: f2014f67636da6f4a8e5fa81dd16589e, type: 3}
+  nekoNoiseClip: {fileID: 8300000, guid: 970b682576bd8e349a74fc5ea148119b, type: 3}
+  spaceNekoNoiseClip: {fileID: 8300000, guid: 40c576e062df99743b65c198bddf418b, type: 3}
+  walkClip1: {fileID: 8300000, guid: 4bf6523b97d1e4e4481deb9e1a45cca8, type: 3}
+  walkClip2: {fileID: 8300000, guid: 4b3abf4fed307e84fa7197606ecd638b, type: 3}
+  DemonNoise1: {fileID: 8300000, guid: 985acf0a836ea5e409f205274181ffd6, type: 3}
+  DemonNoise2: {fileID: 8300000, guid: 37c041261cc5c2343bcba47bac4902d8, type: 3}
+  DemonNoise3: {fileID: 8300000, guid: 2f41e634a5f83e34fae67428ed5b4cbb, type: 3}
+  DemonDeath: {fileID: 8300000, guid: f8e75290afa09634f9738d8da7cc69e9, type: 3}
+  menuMusicClip: {fileID: 8300000, guid: 33539f51ac0327540beb8d7fe532eaa8, type: 3}
+  gameMusicClip1: {fileID: 8300000, guid: fe0403693a1e30a41a89c2c4b90b6a65, type: 3}
+  gameMusicClip2: {fileID: 8300000, guid: 35b96daaf9c6e984787377cdd82c38f2, type: 3}
+  emitterPrefab: {fileID: 1276967650081818, guid: e8835244aa6f4224ea82d51e70d6fce3,
     type: 2}
   emitterNumber: 20
   musicEmitter: {fileID: 82355230969619002}

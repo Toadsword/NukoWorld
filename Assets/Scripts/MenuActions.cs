@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class MenuActions : MonoBehaviour {
 
-    SceneManagement smInstance;
+    SceneManagement sceneManagInstance;
+    SoundManager soundManagInstance;
     GameObject creditsPanel;
     bool isCreditPanelActive = false;
 
     // Use this for initialization
     void Start() {
-        smInstance = FindObjectOfType<SceneManagement>();
+        sceneManagInstance = FindObjectOfType<SceneManagement>();
+        soundManagInstance = FindObjectOfType<SoundManager>();
         creditsPanel = GameObject.Find("Canvas").transform.Find("CreditPanel").gameObject;
     }
 
@@ -21,7 +23,13 @@ public class MenuActions : MonoBehaviour {
 
     public void StartBtn()
     {
-        smInstance.ChangeScene(SceneManagement.Scenes.MAP_GENERATION);
+        sceneManagInstance.ChangeScene(SceneManagement.Scenes.MAP_GENERATION);
+        soundManagInstance.PlaySound(SoundManager.SoundList.NEKO_NOISE);
+    }
+
+    public void MenuBtn()
+    {
+        sceneManagInstance.ChangeScene(SceneManagement.Scenes.MENU);
     }
 
     public void CreditBtn()

@@ -222,8 +222,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1072973167729394, guid: 33b290c8d51f85740b0ea15ed50b2568, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114989757379109790, guid: 33b290c8d51f85740b0ea15ed50b2568,
+        type: 2}
+      propertyPath: stairsClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ea685ae4592c7b64386e397112be59c8, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33b290c8d51f85740b0ea15ed50b2568, type: 2}
   m_IsPrefabParent: 0

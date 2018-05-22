@@ -25,6 +25,8 @@ public class DemonBehavior : MonoBehaviour {
     float bulletScale = 0.3f;
     float fireRate = 0.4f;
     int healthPoint = 4;
+    float demonNoiseTime = 10.0f;
+    float demonNoiseTimer;
 
     float fireRateCd;
 
@@ -32,8 +34,11 @@ public class DemonBehavior : MonoBehaviour {
 
     bool viewPlayer = false;
     bool playerInSightRange = false;
-    GameManager gmInstance;
     DemonStates state = DemonStates.IDLE;
+
+    GameManager gmInstance;
+    SoundManager smInstance;
+
 
     GameObject player;
     Vector2 lastAngleToPlayer;
@@ -48,6 +53,8 @@ public class DemonBehavior : MonoBehaviour {
     void Start () {
         isDead = false;
         gmInstance = FindObjectOfType<GameManager>();
+        smInstance = FindObjectOfType<SoundManager>();
+
         spawnPosition = transform.position;
         player = FindObjectOfType<PlayerController>().gameObject;
         
@@ -55,14 +62,22 @@ public class DemonBehavior : MonoBehaviour {
         bulletData.speed = bulletSpeed;
         bulletData.isFriendly = false;
 
+        demonNoiseTimer = 0.0f;
+
         demonLayerMask = 1 << LayerMask.NameToLayer("Demon");
         demonLayerMask = ~demonLayerMask;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        //if(gmInstance.isGameRunning)
+        if(gmInstance.isGameRunning)
         {
+            if(Utility.IsOver(demonNoiseTimer))
+            {
+                demonNoiseTimer = Utility.StartTimer(demonNoiseTime);
+                smInstance.PlaySound(SoundManager.SoundList.DEMON_NOISE);
+            }
+
             if (playerInSightRange)
             { 
                 lastSeenPlayerPos = player.transform.position;
@@ -163,6 +178,7 @@ public class DemonBehavior : MonoBehaviour {
         if(healthPoint <= 0.0f)
         {
             isDead = true;
+            smInstance.PlaySound(SoundManager.SoundList.DEMON_DEATH);
         }
     }
 
@@ -176,6 +192,7 @@ public class DemonBehavior : MonoBehaviour {
                 Debug.Log("IDLE");
                 break;
             case DemonStates.CHASE_PLAYER:
+                smInstance.PlaySound(SoundManager.SoundList.DEMON_NOISE);
                 Debug.Log("CHASE_PLAYER");
                 break;
 
