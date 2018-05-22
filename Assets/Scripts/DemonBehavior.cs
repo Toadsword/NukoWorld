@@ -77,14 +77,14 @@ public class DemonBehavior : MonoBehaviour {
 	void Update () {
         if(gmInstance.isGameRunning && !isDead)
         {
-            if(Utility.IsOver(demonNoiseTimer))
-            {
-                demonNoiseTimer = Utility.StartTimer(demonNoiseTime);
-                smInstance.PlaySound(SoundManager.SoundList.DEMON_NOISE);
-            }
-
             if (playerInSightRange)
-            { 
+            {
+                if (Utility.IsOver(demonNoiseTimer))
+                {
+                    demonNoiseTimer = Utility.StartTimer(demonNoiseTime);
+                    smInstance.PlaySound(SoundManager.SoundList.DEMON_NOISE);
+                }
+
                 lastSeenPlayerPos = player.transform.position;
                 lastAngleToPlayer = new Vector2(transform.position.x - lastSeenPlayerPos.x, transform.position.y - lastSeenPlayerPos.y);
                 RaycastHit2D hit = Physics2D.Linecast(transform.position, lastSeenPlayerPos, demonLayerMask);
@@ -195,6 +195,8 @@ public class DemonBehavior : MonoBehaviour {
         if(healthPoint <= 0.0f && !isDead)
         {
             isDead = true;
+            GetComponent<BoxCollider2D>().isTrigger = true;
+            GetComponent<SpriteRenderer>().color = Color.magenta;
             smInstance.PlaySound(SoundManager.SoundList.DEMON_DEATH);
         }
     }
@@ -239,7 +241,7 @@ public class DemonBehavior : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Bullet")
+        if (collision.transform.tag == "Bullet" && !isDead)
         {
             BulletBehavior hitted = collision.gameObject.GetComponent<BulletBehavior>();
             if (hitted.isFriendly)
