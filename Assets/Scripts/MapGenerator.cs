@@ -90,17 +90,8 @@ public class MapGenerator : MonoBehaviour
 
         stepTimer = Utility.StartTimer(timeBetweenSteps * 5);
         isLevelSet = false;
-
-        treasureZones = new List<Vector2Int>[nbTreasure];
-        treasurePlaces = new Vector2Int[nbTreasure];
-        for (int i = 0; i < treasureZones.Length; i++)
-        {
-            treasureZones[i] = new List<Vector2Int>();
-            treasurePlaces[i] = new Vector2Int();
-        }
-
-        if (smInstance == null)
-            SetLevel(levelNum);
+        
+        SetLevel(levelNum);
     }
 
     GameObject CreateCellule(Vector2 pos, Color color)
@@ -721,6 +712,16 @@ public class MapGenerator : MonoBehaviour
             minNeighborNum = levelParams[level].minNeighborNum;
             maxNeighborNum = levelParams[level].maxNeighborNum;
         }
+        levelNum = level;
+
+        treasureZones = new List<Vector2Int>[nbTreasure];
+        treasurePlaces = new Vector2Int[nbTreasure];
+        for (int i = 0; i < treasureZones.Length; i++)
+        {
+            treasureZones[i] = new List<Vector2Int>();
+            treasurePlaces[i] = new Vector2Int();
+        }
+
         GenerateRandomInit();
         isLevelSet = true;
     }

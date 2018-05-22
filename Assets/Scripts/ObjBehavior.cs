@@ -27,14 +27,15 @@ public class ObjBehavior : MonoBehaviour {
         transform.position = basePosition + new Vector2(deltaH, deltaH);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.transform.tag == "Player")
+        if (collision.transform.tag == "Player")
         {
+            Debug.Log("Adding item to player");
             AddItemToPlayer(collision.gameObject.GetComponent<PlayerController>());
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
-    }
+    }        
 
     public void SetObject(ObjStats newObjStats)
     {
