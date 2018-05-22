@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
+    private const int MAX_PASSAGE_LENGHT_CHECK = 29;
+
     [Header("WorldGeneratorParams")]
     [SerializeField] LevelParams[] levelParams;
+    [SerializeField] int levelNum = 1;
 
     [Header("WorldGeneratorParams/Size")]
     [SerializeField] int sizeX = 40;
@@ -31,6 +34,9 @@ public class MapGenerator : MonoBehaviour
     [Header("WorldGeneratorParams/Cell Kill or Creation")]
     [SerializeField] int minNeighborNum = 3;
     [SerializeField] int maxNeighborNum = 5;
+
+    [Header("Objects")]
+    [SerializeField] ObjStats[] objects;
 
     [Header("Sprites")]
     [SerializeField] Sprite[] spritesWallLeft;
@@ -92,6 +98,9 @@ public class MapGenerator : MonoBehaviour
             treasureZones[i] = new List<Vector2Int>();
             treasurePlaces[i] = new Vector2Int();
         }
+
+        if (smInstance == null)
+            SetLevel(levelNum);
     }
 
     GameObject CreateCellule(Vector2 pos, Color color)
@@ -125,13 +134,13 @@ public class MapGenerator : MonoBehaviour
 
     void GenerateRandomInit()
     {
-        for (int i = -sizeX - 1; i <= sizeX + 1; i++)
+        for (int i = -sizeX - 1 - extWallsNotEmpty; i <= sizeX + 1 + extWallsNotEmpty; i++)
         {
-            for (int j = -sizeY - 1; j <= sizeY + 1; j++)
+            for (int j = -sizeY - 1 - extWallsNotEmpty; j <= sizeY + 1 + extWallsNotEmpty; j++)
             {
                 Vector2Int pos = new Vector2Int(i, j);
                 bool empty = (pos.x > emptyZoneMidSize || pos.x < -emptyZoneMidSize) || (pos.y > emptyZoneMidSize || pos.y < -emptyZoneMidSize);
-                bool notEmpty = (pos.x > sizeX - extWallsNotEmpty || pos.x < -sizeX + extWallsNotEmpty) || (pos.y > sizeY - extWallsNotEmpty || pos.y < -sizeY + extWallsNotEmpty);
+                bool notEmpty = (pos.x > sizeX || pos.x < -sizeX) || (pos.y > sizeY || pos.y < -sizeY);
                 if (Random.Range(0.0f, 1.0f) < celluleInitRepartition && empty || notEmpty)
                 {
                     cells[pos] = CreateCellule(pos, Color.black);
@@ -275,11 +284,6 @@ public class MapGenerator : MonoBehaviour
                 entranceZone = zone;
                 assigned = true;
             }
-            else if (stairZone.Count == 0)
-            {
-                stairZone = zone;
-                assigned = true;
-            }
             else
             {
                 for(int i = 0; i < treasureZones.Length; i++)
@@ -291,6 +295,11 @@ public class MapGenerator : MonoBehaviour
                         break;
                     }
                 }
+            }
+            if (!assigned && stairZone.Count == 0)
+            {
+                stairZone = zone;
+                assigned = true;
             }
 
             if (zone.Count < minZoneSize && !assigned)
@@ -308,7 +317,6 @@ public class MapGenerator : MonoBehaviour
             if (treasureZones[i].Count == 0)
                 treasureZones[i] = biggestZone;
         }
-
 
         foreach (List<Vector2Int> zone in zonesToDelete)
         {
@@ -376,7 +384,7 @@ public class MapGenerator : MonoBehaviour
                 }
                 multiplier++;
 
-                if (multiplier > 29)
+                if (multiplier > MAX_PASSAGE_LENGHT_CHECK)
                     break;
             }
 
@@ -395,7 +403,7 @@ public class MapGenerator : MonoBehaviour
                     traveledDist--;
                     prevPos = center - direction * traveledDist;
 
-                    if (traveledDist < 29)
+                    if (traveledDist < MAX_PASSAGE_LENGHT_CHECK)
                         break;
                 }
 
@@ -607,7 +615,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    void SetPlace(ref List<Vector2Int> varZone,ref Vector2Int varPlace, GameObject prefab)
+    GameObject SetPlace(ref List<Vector2Int> varZone,ref Vector2Int varPlace, GameObject prefab)
     {
         int index = Random.Range(0, varZone.Count);
         varPlace = varZone[index];
@@ -633,7 +641,9 @@ public class MapGenerator : MonoBehaviour
         {
             GameObject obj = Instantiate(prefab, (Vector2)varPlace, prefab.transform.rotation);
             obj.transform.parent = transform;
+            return obj;
         }
+        return null;
     }
 
     // Update is called once per frame
@@ -681,7 +691,9 @@ public class MapGenerator : MonoBehaviour
             SetPlace(ref stairZone, ref stairPlace, stairPrefab);
             for (int i = 0; i < treasureZones.Length; i++)
             {
-                SetPlace(ref treasureZones[i], ref treasurePlaces[i], treasurePrefab);
+                GameObject obj = SetPlace(ref treasureZones[i], ref treasurePlaces[i], treasurePrefab);
+                int index = Random.Range(0, objects.Length);
+                obj.GetComponent<ObjBehavior>().SetObject(objects[index]);
             }
 
             SetSprites();

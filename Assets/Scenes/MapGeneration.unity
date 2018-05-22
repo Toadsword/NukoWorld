@@ -135,12 +135,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 214566303}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 23.383886, y: 5.2960944, z: -0.7786098}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1743024397}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &214566305
 MonoBehaviour:
@@ -474,6 +474,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e55e8477184626142bf18267ecc820a8, type: 2}
   - {fileID: 11400000, guid: 9e7d8b990e684f147a3cbd553f57d79f, type: 2}
   - {fileID: 11400000, guid: 25d53218de754b744b7faab617325a05, type: 2}
+  levelNum: 1
   sizeX: 40
   sizeY: 40
   celluleInitRepartition: 0.49
@@ -491,6 +492,21 @@ MonoBehaviour:
   extWallsNotEmpty: 15
   minNeighborNum: 3
   maxNeighborNum: 5
+  objects:
+  - {fileID: 11400000, guid: 9a4c0be64dac92e419fcb20fedc03169, type: 2}
+  - {fileID: 11400000, guid: aacb1e57abe272c4eadf23f145d284b8, type: 2}
+  - {fileID: 11400000, guid: b235554a415f2db408ab79507b86d039, type: 2}
+  - {fileID: 11400000, guid: d430ff494d61612449c1035b90255810, type: 2}
+  - {fileID: 11400000, guid: 353d3597891fea142ac2e04e5cc62b7f, type: 2}
+  - {fileID: 11400000, guid: bdc6540c6dfb7364db85782e32086aa8, type: 2}
+  - {fileID: 11400000, guid: 66cb399a8f12ee84cbf3f26309690136, type: 2}
+  - {fileID: 11400000, guid: 2cf69635a9c6d9f4d81d9ec16af38cca, type: 2}
+  - {fileID: 11400000, guid: e6bab0300a7824845914792cad130d21, type: 2}
+  - {fileID: 11400000, guid: af2efb59a6dd3bc4d9fb471faf5a29b2, type: 2}
+  - {fileID: 11400000, guid: 710d9ec373ea3e248adeb671f2853138, type: 2}
+  - {fileID: 11400000, guid: f98de02f095bf184583b3bff78c9857e, type: 2}
+  - {fileID: 11400000, guid: 2b7ae9e08b0fbbf45a776acf0fd46b8f, type: 2}
+  - {fileID: 11400000, guid: cb9d817c68c22f64c8064eea521bf3d4, type: 2}
   spritesWallLeft:
   - {fileID: 21300056, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
   spritesWallRight:
@@ -560,7 +576,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 214566304}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

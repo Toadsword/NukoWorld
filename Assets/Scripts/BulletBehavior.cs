@@ -12,7 +12,7 @@ public class BulletBehavior : MonoBehaviour {
         if (collision.transform.tag == "Demon" && isFriendly)
         {
             //Deal damage to enemy
-            collision.gameObject.GetComponent<DemonController>().GetHit(damage);
+            collision.gameObject.GetComponent<DemonBehavior>().GetHit(damage);
             Destroy(gameObject);
         }
         else if (collision.transform.tag == "player" && !isFriendly)

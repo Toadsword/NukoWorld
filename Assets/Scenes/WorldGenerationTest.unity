@@ -194,41 +194,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &772741566
+--- !u!1 &2036706461
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 772741568}
-  - component: {fileID: 772741567}
+  - component: {fileID: 2036706463}
+  - component: {fileID: 2036706462}
   m_Layer: 0
-  m_Name: WorldGeneratorLevel1
+  m_Name: WorldGeneratorLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &772741567
+--- !u!114 &2036706462
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 772741566}
+  m_GameObject: {fileID: 2036706461}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c01591f28be12e4b98358cd6fd0d915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   levelParams:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  sizeX: 20
-  sizeY: 20
-  celluleInitRepartition: 0.49
-  nbTreasure: 1
+  - {fileID: 11400000, guid: e55e8477184626142bf18267ecc820a8, type: 2}
+  - {fileID: 11400000, guid: 9e7d8b990e684f147a3cbd553f57d79f, type: 2}
+  - {fileID: 11400000, guid: 25d53218de754b744b7faab617325a05, type: 2}
+  levelNum: 2
+  sizeX: 35
+  sizeY: 35
+  celluleInitRepartition: 0.52
+  nbTreasure: 5
   cellulePrefab: {fileID: 1350774210349298, guid: 0b33e6e9d8653274c80be89676ae1b95,
     type: 2}
   floorPrefab: {fileID: 1935861452409602, guid: b3b41fa3f014e5c439230049662a4a8e,
@@ -237,11 +238,17 @@ MonoBehaviour:
   numStepAfterZone: 2
   numStepFinish: 10
   timeBetweenSteps: 0.5
-  minZoneSize: 10
+  minZoneSize: 80
   emptyZoneMidSize: 3
   extWallsNotEmpty: 2
   minNeighborNum: 3
   maxNeighborNum: 5
+  objects:
+  - {fileID: 11400000, guid: 9a4c0be64dac92e419fcb20fedc03169, type: 2}
+  - {fileID: 11400000, guid: b235554a415f2db408ab79507b86d039, type: 2}
+  - {fileID: 11400000, guid: 353d3597891fea142ac2e04e5cc62b7f, type: 2}
+  - {fileID: 11400000, guid: cb9d817c68c22f64c8064eea521bf3d4, type: 2}
+  - {fileID: 11400000, guid: 710d9ec373ea3e248adeb671f2853138, type: 2}
   spritesWallLeft:
   - {fileID: 21300056, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
   spritesWallRight:
@@ -301,245 +308,7 @@ MonoBehaviour:
   stairZone: []
   stairPlace: {x: 0, y: 0}
   treasurePlaces: []
-  isLevelSet: 0
---- !u!4 &772741568
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 772741566}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1868680909
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1868680911}
-  - component: {fileID: 1868680910}
-  m_Layer: 0
-  m_Name: WorldGeneratorLevel2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1868680910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1868680909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c01591f28be12e4b98358cd6fd0d915, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelParams:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  sizeX: 25
-  sizeY: 25
-  celluleInitRepartition: 0.52
-  nbTreasure: 1
-  cellulePrefab: {fileID: 1350774210349298, guid: 0b33e6e9d8653274c80be89676ae1b95,
-    type: 2}
-  floorPrefab: {fileID: 1935861452409602, guid: b3b41fa3f014e5c439230049662a4a8e,
-    type: 2}
-  numStep: 12
-  numStepAfterZone: 2
-  numStepFinish: 10
-  timeBetweenSteps: 0.5
-  minZoneSize: 80
-  emptyZoneMidSize: 3
-  extWallsNotEmpty: 2
-  minNeighborNum: 3
-  maxNeighborNum: 5
-  spritesWallLeft:
-  - {fileID: 21300056, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallRight:
-  - {fileID: 21300054, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallBotLeft:
-  - {fileID: 21300040, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallBottomMid:
-  - {fileID: 21300042, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300044, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallBotRight:
-  - {fileID: 21300046, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallTopLeft:
-  - {fileID: 21300032, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallTopMid:
-  - {fileID: 21300034, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300036, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallTopRight:
-  - {fileID: 21300038, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesRaccBotLeft:
-  - {fileID: 21300050, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesRaccBotRight:
-  - {fileID: 21300048, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesRaccTopLeft:
-  - {fileID: 21300058, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesRaccTopRight:
-  - {fileID: 21300060, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallInside:
-  - {fileID: 21300052, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesFloor:
-  - {fileID: 21300008, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300012, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300028, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300030, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300022, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300016, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesSlate:
-  - {fileID: 21300000, guid: 3a02840f547e03241b059691eff18e0f, type: 3}
-  stairPrefab: {fileID: 0}
-  treasurePrefab: {fileID: 0}
-  emptyCells: []
-  entranceZone: []
-  entrancePlace: {x: 0, y: 0}
-  stairZone: []
-  stairPlace: {x: 0, y: 0}
-  treasurePlaces: []
-  isLevelSet: 0
---- !u!4 &1868680911
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1868680909}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2036706461
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 2036706463}
-  - component: {fileID: 2036706462}
-  m_Layer: 0
-  m_Name: WorldGeneratorLevel3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &2036706462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2036706461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c01591f28be12e4b98358cd6fd0d915, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelParams:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  sizeX: 35
-  sizeY: 35
-  celluleInitRepartition: 0.52
-  nbTreasure: 5
-  cellulePrefab: {fileID: 1350774210349298, guid: 0b33e6e9d8653274c80be89676ae1b95,
-    type: 2}
-  floorPrefab: {fileID: 1935861452409602, guid: b3b41fa3f014e5c439230049662a4a8e,
-    type: 2}
-  numStep: 12
-  numStepAfterZone: 2
-  numStepFinish: 10
-  timeBetweenSteps: 0.5
-  minZoneSize: 80
-  emptyZoneMidSize: 3
-  extWallsNotEmpty: 2
-  minNeighborNum: 3
-  maxNeighborNum: 5
-  spritesWallLeft:
-  - {fileID: 21300056, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallRight:
-  - {fileID: 21300054, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallBotLeft:
-  - {fileID: 21300040, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallBottomMid:
-  - {fileID: 21300042, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300044, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallBotRight:
-  - {fileID: 21300046, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallTopLeft:
-  - {fileID: 21300032, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallTopMid:
-  - {fileID: 21300034, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300036, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallTopRight:
-  - {fileID: 21300038, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesRaccBotLeft:
-  - {fileID: 21300050, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesRaccBotRight:
-  - {fileID: 21300048, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesRaccTopLeft:
-  - {fileID: 21300058, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesRaccTopRight:
-  - {fileID: 21300060, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesWallInside:
-  - {fileID: 21300052, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesFloor:
-  - {fileID: 21300008, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300012, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300028, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300030, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300022, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300016, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  - {fileID: 21300014, guid: 0a3ed714d11602d4c8af01c3bced037f, type: 3}
-  spritesSlate:
-  - {fileID: 21300000, guid: 3a02840f547e03241b059691eff18e0f, type: 3}
-  stairPrefab: {fileID: 0}
-  treasurePrefab: {fileID: 0}
-  emptyCells: []
-  entranceZone: []
-  entrancePlace: {x: 0, y: 0}
-  stairZone: []
-  stairPlace: {x: 0, y: 0}
-  treasurePlaces: []
-  isLevelSet: 0
+  isLevelSet: 1
 --- !u!4 &2036706463
 Transform:
   m_ObjectHideFlags: 0
@@ -551,5 +320,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

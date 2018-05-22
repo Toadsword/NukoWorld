@@ -22,6 +22,7 @@ public class DemonCreator : MonoBehaviour {
     public void CreateDemon(Vector3 position, DemonTypes demonType)
     {
         GameObject demon = Instantiate(demonPrefab, position, demonPrefab.transform.rotation);
+        demon.transform.parent = transform;
 
         DemonStats demonStats = basicDemonStats;
         switch(demonType)
@@ -37,6 +38,6 @@ public class DemonCreator : MonoBehaviour {
                 break;
         }
 
-        demon.GetComponent<DemonController>().SetDemonStats(demonStats);
+        demon.GetComponent<DemonBehavior>().SetDemonStats(demonStats);
     }
 }

@@ -21,8 +21,9 @@ GameObject:
   - component: {fileID: 4602746091120602}
   - component: {fileID: 212728576970048396}
   - component: {fileID: 61962854915009454}
+  - component: {fileID: 114490020623686780}
   m_Layer: 0
-  m_Name: Treasure
+  m_Name: Object
   m_TagString: Treasure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,6 +67,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &114490020623686780
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1090192995269288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e93e0f7feaaa54d9b4cac141e884c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objStats: {fileID: 0}
 --- !u!212 &212728576970048396
 SpriteRenderer:
   m_ObjectHideFlags: 1

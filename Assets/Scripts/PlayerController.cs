@@ -6,20 +6,23 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
 
     [Header("Overall stats")]
-    [SerializeField] float moveSpeed = 5.0f;
-    [SerializeField] float bulletSpeed = 9.0f;
-    [SerializeField] int bulletDamage = 3;
-    [SerializeField] float bulletScale = 0.3f;
-    [SerializeField] float fireRate = 0.4f;
-    [SerializeField] float spamClickReductionFireRate = 0.08f;
-    [SerializeField] int healthPoint = 3;
-    [SerializeField] float slowTime = 3.0f;
-    [SerializeField] float slowTimeRecoveryScale = 0.3f;
+    [SerializeField] public float moveSpeed = 5.0f;
+    [SerializeField] public float bulletSpeed = 9.0f;
+    [SerializeField] public int bulletDamage = 3;
+    [SerializeField] public float bulletScale = 0.3f;
+    [SerializeField] public float fireRate = 0.4f;
+    [SerializeField] public float spamClickReductionFireRate = 0.08f;
+    [SerializeField] public int healthPoint = 3;
+    public int currentHealth;
+    [SerializeField] public float slowTime = 3.0f;
+    [SerializeField] public float slowTimeRecoveryScale = 0.3f;
 
     [Header("Prefabs")]
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject particlePrefab;
     [SerializeField] GameObject cursor;
+
+    public List<ObjBehavior.EffectName> holdingItems;
 
     // Cd means Cooldown
     float fireRateCd;
@@ -56,6 +59,9 @@ public class PlayerController : MonoBehaviour {
         bulletData.scale = bulletScale;
         bulletData.speed = bulletSpeed;
         bulletData.isFriendly = true;
+
+        currentHealth = healthPoint;
+        holdingItems = new List<ObjBehavior.EffectName>();
 
         fireRateCd = 0.0f;
 

@@ -9,10 +9,11 @@ public class GameManager : MonoBehaviour {
 
     public SceneManagement sceneManagInstance;
     private SoundManager soundManagInstance;
-    
-    private bool isGameWon = false;
 
-    private int currentLevel = -1;
+    public bool isGameRunning = false;
+    public bool isGameWon = false;
+
+    public int currentLevel = -1;
 
     public MapGenerator levelObj;
 
@@ -41,10 +42,13 @@ public class GameManager : MonoBehaviour {
                 {
                     player.transform.position = (Vector2)mpGener.entrancePlace;
                 }
+                isGameRunning = true;
 
                 break;
 
             case SceneManagement.Scenes.MAP_GENERATION:
+                isGameRunning = false;
+
                 if (levelObj != null)
                     Destroy(levelObj);
 
@@ -63,12 +67,14 @@ public class GameManager : MonoBehaviour {
                 break;
 
             case SceneManagement.Scenes.MENU:
+                isGameRunning = false;
                 //soundManagInstance.PlayMusic(SoundManager.MusicList.MENU_MUSIC);
                 break;
 
             case SceneManagement.Scenes.END_GAME:
+                isGameRunning = false;
                 //soundManagInstance.PlayMusic(SoundManager.MusicList.NONE);
-                
+
                 if (isGameWon)
                 {
                     GameObject.Find("CanvasEndGame").transform.Find("VictoryPanel").gameObject.SetActive(true);

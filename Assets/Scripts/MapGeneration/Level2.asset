@@ -17,6 +17,6 @@ MonoBehaviour:
   nbTreasure: 2
   minZoneSize: 20
   emptyZoneMidSize: 3
-  extWallsNotEmpty: 2
+  extWallsNotEmpty: 12
   minNeighborNum: 3
   maxNeighborNum: 5
