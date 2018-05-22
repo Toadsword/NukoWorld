@@ -524,7 +524,7 @@ Prefab:
     - target: {fileID: 114656291245600534, guid: 8081714a27f9ccb40b65fc87b08f95b7,
         type: 2}
       propertyPath: isGameRunning
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114656291245600534, guid: 8081714a27f9ccb40b65fc87b08f95b7,
         type: 2}

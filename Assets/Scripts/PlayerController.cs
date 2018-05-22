@@ -186,7 +186,7 @@ public class PlayerController : MonoBehaviour {
     public void GetHit(int damage)
     {
         healthPoint -= damage;
-        if(healthPoint <= 0.0f)
+        if(healthPoint <= 0.0f && gmInstance.isGameRunning)
         {
             //TODO : Trigger death;
             Debug.Log("PLAYER IS DEAD");

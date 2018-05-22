@@ -100,7 +100,8 @@ public class GameManager : MonoBehaviour {
 
                 isGameRunning = false;
                 currentLevel = -1;
-                //soundManagInstance.PlayMusic(SoundManager.MusicList.NONE);
+                if(!isGameWon)
+                    soundManagInstance.PlayMusic(SoundManager.MusicList.NONE);
 
                 if (isGameWon)
                 {
@@ -134,6 +135,7 @@ public class GameManager : MonoBehaviour {
 
     public void EndGame(bool hasWon)
     {
+        isGameRunning = false;
         isGameWon = hasWon;
         sceneManagInstance.ChangeScene(SceneManagement.Scenes.END_GAME);
     }
