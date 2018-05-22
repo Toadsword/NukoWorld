@@ -68,11 +68,14 @@ public class GameManager : MonoBehaviour {
 
             case SceneManagement.Scenes.MENU:
                 isGameRunning = false;
+                isGameWon = false;
+                currentLevel = -1;
                 soundManagInstance.PlayMusic(SoundManager.MusicList.MENU_MUSIC);
                 break;
 
             case SceneManagement.Scenes.END_GAME:
                 isGameRunning = false;
+                currentLevel = -1;
                 //soundManagInstance.PlayMusic(SoundManager.MusicList.NONE);
 
                 if (isGameWon)
@@ -87,6 +90,7 @@ public class GameManager : MonoBehaviour {
                     GameObject.Find("CanvasEndGame").transform.Find("DefeatPanel").gameObject.SetActive(true);
                     // soundManagInstance.PlaySound(SoundManager.SoundList.LOSE_MUSIC);
                 }
+                isGameWon = false;
                 break;
             // End case
         } // End switch

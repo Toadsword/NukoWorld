@@ -9,17 +9,9 @@ public class BulletBehavior : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Demon" && isFriendly)
+        if(collision.transform.tag == "Wall")
         {
-            //Deal damage to enemy
-            collision.gameObject.GetComponent<DemonBehavior>().GetHit(damage);
             Destroy(gameObject);
         }
-        else if (collision.transform.tag == "player" && !isFriendly)
-        {
-            collision.gameObject.GetComponent<PlayerController>().GetHit(damage);
-            Destroy(gameObject);
-        }
-
     }
 }

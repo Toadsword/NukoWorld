@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - Stairs
   - Treasure
+  - Wall
   layers:
   - Default
   - TransparentFX

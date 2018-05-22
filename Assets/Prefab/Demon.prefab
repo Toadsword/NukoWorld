@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7abd772386296ee46ad0411228f9c8db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1642896575387220, guid: 149c940872f5118408d26d389bb4d345,
+  bulletPrefab: {fileID: 1444168079117240, guid: d39e10a6d6d6dbb458cfa2c17a113abb,
     type: 2}
 --- !u!212 &212798352074807052
 SpriteRenderer:

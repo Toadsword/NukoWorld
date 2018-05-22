@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1771925333161936
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +183,7 @@ MonoBehaviour:
   gunFireClip: {fileID: 8300000, guid: f2014f67636da6f4a8e5fa81dd16589e, type: 3}
   nekoNoiseClip: {fileID: 8300000, guid: 970b682576bd8e349a74fc5ea148119b, type: 3}
   spaceNekoNoiseClip: {fileID: 8300000, guid: 40c576e062df99743b65c198bddf418b, type: 3}
+  stairsClip: {fileID: 8300000, guid: ea685ae4592c7b64386e397112be59c8, type: 3}
   walkClip1: {fileID: 8300000, guid: 4bf6523b97d1e4e4481deb9e1a45cca8, type: 3}
   walkClip2: {fileID: 8300000, guid: 4b3abf4fed307e84fa7197606ecd638b, type: 3}
   DemonNoise1: {fileID: 8300000, guid: 985acf0a836ea5e409f205274181ffd6, type: 3}

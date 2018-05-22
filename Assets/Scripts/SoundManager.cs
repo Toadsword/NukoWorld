@@ -89,7 +89,7 @@ public class SoundManager : MonoBehaviour
 
         listWalkSounds = new List<AudioClip>{walkClip1, walkClip2};
 
-        listWalkSounds = new List<AudioClip>{DemonNoise1, DemonNoise2, DemonNoise3};
+        listDemonNoiseSounds = new List<AudioClip>{DemonNoise1, DemonNoise2, DemonNoise3};
     }
 
     private void Update()
@@ -120,6 +120,7 @@ public class SoundManager : MonoBehaviour
         if (emitterAvailable != null)
         {
             emitterAvailable.loop = false;
+            Debug.Log(sound.ToString());
             switch (sound)
             {
                 case SoundList.WALK:
@@ -142,27 +143,34 @@ public class SoundManager : MonoBehaviour
                     emitterAvailable.clip = getItemClip;
                     emitterAvailable.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Effects")[0];
                     break;
+
                 case SoundList.GUN_FIRE:
                     emitterAvailable.clip = gunFireClip;
                     emitterAvailable.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Effects")[0];
+                    
                     break;
+
                 case SoundList.DEMON_NOISE:
                     int indexNoise = Random.Range(0, listDemonNoiseSounds.Count);
                     emitterAvailable.clip = listDemonNoiseSounds[indexNoise];
                     emitterAvailable.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Effects")[0];
                     break;
+
                 case SoundList.DEMON_DEATH:
                     emitterAvailable.clip = DemonDeath;
                     emitterAvailable.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Effects")[0];
                     break;
+
                 case SoundList.NEKO_NOISE:
                     emitterAvailable.clip = nekoNoiseClip;
                     emitterAvailable.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Effects")[0];
                     break;
+
                 case SoundList.SPACE_NEKO_DEATH:
                     emitterAvailable.clip = spaceNekoNoiseClip;
                     emitterAvailable.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Effects")[0];
                     break;
+
                 case SoundList.STAIRS:
                     emitterAvailable.clip = stairsClip;
                     emitterAvailable.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Effects")[0];

@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour {
     Transform gunCannon;
     Image clock;
     Image clockBackground;
-    BulletData bulletData;
+    BulletCreator.BulletData bulletData;
     Rigidbody2D rigid;
 
     AudioSource clockSound;
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour {
         UpdateGunPosition();
         ManageInputs();
         
-        if(Utility.IsOver(footStepsTimer))
+        if(Utility.IsOver(footStepsTimer) && (rigid.velocity.x != 0 || rigid.velocity.y != 0))
         {
             footStepsTimer = Utility.StartTimer(timeBetweenFootsteps);
             smInstance.PlaySound(SoundManager.SoundList.WALK);
@@ -106,7 +106,6 @@ public class PlayerController : MonoBehaviour {
 
     private void ManageInputs()
     {
-
         if (Input.GetButtonDown("Fire1"))
         {
             fireRateCd -= spamClickReductionFireRate;
@@ -129,7 +128,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if(Input.GetButton("Action") && onStairs)
+        if(Input.GetButtonDown("Action") && onStairs)
         {
             gmInstance.EndLevel();
             smInstance.PlaySound(SoundManager.SoundList.STAIRS);
@@ -198,6 +197,16 @@ public class PlayerController : MonoBehaviour {
         if(collision.tag == "Stairs")
         {
             onStairs = true;
+        }
+        else if(collision.transform.tag == "Bullet")
+        {
+            BulletBehavior hitted = collision.gameObject.GetComponent<BulletBehavior>();
+            Debug.Log("Bullet Hit" + hitted.isFriendly + " _ " + hitted.damage);
+            if (!hitted.isFriendly)
+            {
+                GetHit(hitted.damage);
+                Destroy(collision.gameObject);
+            }
         }
     }
 

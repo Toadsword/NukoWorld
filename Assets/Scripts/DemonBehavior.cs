@@ -45,7 +45,7 @@ public class DemonBehavior : MonoBehaviour {
     Vector2 lastSeenPlayerPos;
     Vector2 spawnPosition;
 
-    BulletData bulletData;
+    BulletCreator.BulletData bulletData;
 
     LayerMask demonLayerMask;
 
@@ -57,7 +57,8 @@ public class DemonBehavior : MonoBehaviour {
 
         spawnPosition = transform.position;
         player = FindObjectOfType<PlayerController>().gameObject;
-        
+
+        bulletData.damage = 1;
         bulletData.scale = bulletScale;
         bulletData.speed = bulletSpeed;
         bulletData.isFriendly = false;
@@ -70,7 +71,7 @@ public class DemonBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(gmInstance.isGameRunning)
+        if(gmInstance.isGameRunning && !isDead)
         {
             if(Utility.IsOver(demonNoiseTimer))
             {
@@ -175,7 +176,7 @@ public class DemonBehavior : MonoBehaviour {
         healthPoint -= damage;
         // TODO : Add animation of being hit
         // TODO : Add sound of being hit
-        if(healthPoint <= 0.0f)
+        if(healthPoint <= 0.0f && !isDead)
         {
             isDead = true;
             smInstance.PlaySound(SoundManager.SoundList.DEMON_DEATH);
@@ -189,15 +190,15 @@ public class DemonBehavior : MonoBehaviour {
         switch(newState)
         {
             case DemonStates.IDLE:
-                Debug.Log("IDLE");
+                //Debug.Log("IDLE");
                 break;
             case DemonStates.CHASE_PLAYER:
                 smInstance.PlaySound(SoundManager.SoundList.DEMON_NOISE);
-                Debug.Log("CHASE_PLAYER");
+                //Debug.Log("CHASE_PLAYER");
                 break;
 
             case DemonStates.RETURNING_BASE:
-                Debug.Log("RETURNING_BASE");
+                ///Debug.Log("RETURNING_BASE");
                 break;
         }
     }
@@ -217,6 +218,19 @@ public class DemonBehavior : MonoBehaviour {
         {
             playerInSightRange = false;
             Debug.Log("player not in sight");
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "Bullet")
+        {
+            BulletBehavior hitted = collision.gameObject.GetComponent<BulletBehavior>();
+            if (hitted.isFriendly)
+            {
+                GetHit(hitted.damage);
+                Destroy(collision.gameObject);
+            }
         }
     }
 }

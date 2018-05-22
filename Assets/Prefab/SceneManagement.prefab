@@ -95,7 +95,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: e874e6c3767bc1d419e4e44dd548a516, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 623e9c298c0a2c448bc38c6db3faa765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackFadeObject: {fileID: 0}
+  blackFadeObject: {fileID: 114498185649486318}
   fadeDuration: 2
 --- !u!114 &114977902053672508
 MonoBehaviour:
