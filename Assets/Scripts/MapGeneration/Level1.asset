@@ -20,6 +20,6 @@ MonoBehaviour:
   extWallsNotEmpty: 12
   minNeighborNum: 3
   maxNeighborNum: 5
-  chunkSize: {x: 15, y: 15}
+  chunkSize: {x: 10, y: 10}
   numDemonsPerChunk: 1
   maxLevelDemon: 1

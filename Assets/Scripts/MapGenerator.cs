@@ -142,7 +142,7 @@ public class MapGenerator : MonoBehaviour
         int multiplierY = 0;
         int demonCreated = 0;
 
-        while (multiplierX * chunkSize.x < sizeX * 2 && multiplierY * chunkSize.y < sizeY * 2)
+        while (multiplierX * chunkSize.x <= sizeX * 2 && multiplierY * chunkSize.y <= sizeY * 2)
         {
             // Don't spawn a demon on the player !
             if(chunkSize.x * multiplierX < entrancePlace.x &&  entrancePlace.x < chunkSize.x * (multiplierX + 1) &&
