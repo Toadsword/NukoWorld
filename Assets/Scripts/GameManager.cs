@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
     const int NUM_LEVELS = 3;
 
     public SceneManagement sceneManagInstance;
-    private SoundManager soundManagInstance;
+    public SoundManager soundManagInstance;
 
     public bool isGameRunning = false;
     public bool isGameWon = false;
@@ -16,9 +16,6 @@ public class GameManager : MonoBehaviour {
     public int currentLevel = -1;
 
     public MapGenerator levelObj;
-
-    [Header("Levels")]
-    [SerializeField] LevelParams[] levels;
     
     // Use this for initialization
     void Start ()

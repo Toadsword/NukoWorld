@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
+    public const float MIN_CAP_FIRE_RATE = 0.1f;
+
     [Header("Overall stats")]
     [SerializeField] public float moveSpeed = 5.0f;
     [SerializeField] public float bulletSpeed = 9.0f;

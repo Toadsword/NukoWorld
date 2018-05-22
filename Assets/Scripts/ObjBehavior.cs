@@ -39,11 +39,6 @@ public class ObjBehavior : MonoBehaviour {
     public void SetObject(ObjStats newObjStats)
     {
         objStats = newObjStats;
-        Debug.Log(gameObject.ToString());
-        Debug.Log(gameObject.GetComponent<SpriteRenderer>().ToString());
-        Debug.Log(transform.ToString());
-        Debug.Log(transform.GetComponent<SpriteRenderer>().ToString());
-
         transform.GetComponent<SpriteRenderer>().sprite = newObjStats.sprite;
     }
 
@@ -53,14 +48,19 @@ public class ObjBehavior : MonoBehaviour {
         player.bulletSpeed += objStats.bulletSpeed;
         player.bulletScale += objStats.bulletScale;
         player.fireRate += objStats.fireRate;
+        if (player.fireRate <= PlayerController.MIN_CAP_FIRE_RATE)
+            player.fireRate = PlayerController.MIN_CAP_FIRE_RATE;
+
         player.healthPoint += objStats.healthPoint;
         player.slowTime += objStats.slowTime;
         player.slowTimeRecoveryScale += objStats.slowTimeRecoveryScale;
         player.transform.localScale += new Vector3(objStats.playerScale, objStats.playerScale, 0.0f);
 
         player.currentHealth += objStats.healing;
+        if (player.currentHealth > player.healthPoint)
+            player.currentHealth = player.healthPoint;
 
-        if(objStats.effect != ObjBehavior.EffectName.NONE)
+        if (objStats.effect != ObjBehavior.EffectName.NONE && !player.holdingItems.Contains(objStats.effect))
             player.holdingItems.Add(objStats.effect);
     }
 }
