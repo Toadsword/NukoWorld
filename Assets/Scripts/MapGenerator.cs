@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     private const int MAX_PASSAGE_LENGHT_CHECK = 29;
+    private const float BASE_CHANCE_OF_SPAWN = 0.2f;
 
     [Header("WorldGeneratorParams")]
     [SerializeField] LevelParams[] levelParams;
@@ -23,7 +24,7 @@ public class MapGenerator : MonoBehaviour
     [Header("WorldGeneratorParams/Steps")]
     [SerializeField] int numStep = 12;
     [SerializeField] int numStepAfterZone = 2;
-    [SerializeField] int numStepFinish = 10;
+    [SerializeField] int numStepFinish = 20;
     [SerializeField] float timeBetweenSteps = 0.1f;
 
     [Header("WorldGeneratorParams/Zones")]
@@ -34,6 +35,16 @@ public class MapGenerator : MonoBehaviour
     [Header("WorldGeneratorParams/Cell Kill or Creation")]
     [SerializeField] int minNeighborNum = 3;
     [SerializeField] int maxNeighborNum = 5;
+
+    [Header("DemonSpawn")]
+    [SerializeField] Vector2Int chunkSize = new Vector2Int(16, 16);
+    [SerializeField] int numDemonsPerChunk;
+    /* NOT WORKING, ONLY FOR STATS */
+    // 1 == only Basics
+    // 2 == Basics + rush
+    // 3 == Basics + High
+    // 4 == All     
+    [SerializeField] int maxLevelDemon;
 
     [Header("Objects")]
     [SerializeField] ObjStats[] objects;
@@ -81,12 +92,14 @@ public class MapGenerator : MonoBehaviour
     float stepTimer;
 
     SceneManagement smInstance;
+    DemonCreator dcInstance;
 
     // Use this for initialization
     void Start()
     {
         DontDestroyOnLoad(gameObject);
         smInstance = FindObjectOfType<SceneManagement>();
+        dcInstance = FindObjectOfType<DemonCreator>();
 
         stepTimer = Utility.StartTimer(timeBetweenSteps * 5);
         isLevelSet = false;
@@ -121,6 +134,45 @@ public class MapGenerator : MonoBehaviour
         slate.GetComponent<SpriteRenderer>().sprite = spritesSlate[index];
         slate.GetComponent<SpriteRenderer>().sortingOrder = 2;
         return slate;
+    }
+
+    void SpawnDemons()
+    {
+        int multiplierX = 0;
+        int multiplierY = 0;
+        int demonCreated = 0;
+
+        while (multiplierX * chunkSize.x < sizeX * 2 && multiplierY * chunkSize.y < sizeY * 2)
+        {
+            for (int dx = -sizeX + chunkSize.x * multiplierX; dx <= -sizeX + chunkSize.x * (multiplierX + 1); dx++)
+            {
+                for (int dy = -sizeY + chunkSize.y * multiplierY; dy <= -sizeY + chunkSize.y * (multiplierY + 1); dy++)
+                {
+                    Vector2Int pos = new Vector2Int(dx, dy);
+                    if (emptyCells.Contains(pos) && Random.Range(0.0f, 1.0f) < BASE_CHANCE_OF_SPAWN)
+                    {
+                        //Spawn Demon at this place
+                        dcInstance.CreateDemon(new Vector3(pos.x, pos.y, 0), DemonCreator.DemonTypes.BASIC_DEMON);
+                        demonCreated++;
+                    }
+                    if (demonCreated == numDemonsPerChunk)
+                        break;
+                }
+                if (demonCreated == numDemonsPerChunk)
+                    break;
+            }
+            if (multiplierX * chunkSize.x > sizeX * 2)
+            {
+                multiplierX = 0;
+                multiplierY++;
+            }
+            else
+            {
+                multiplierX++;
+            }
+
+            demonCreated = 0;
+        }
     }
 
     void GenerateRandomInit()
@@ -687,6 +739,7 @@ public class MapGenerator : MonoBehaviour
                 int index = Random.Range(0, objects.Length);
                 obj.GetComponent<ObjBehavior>().SetObject(objects[index]);
             }
+            SpawnDemons();
 
             SetSprites();
             isDone = true;
@@ -712,6 +765,10 @@ public class MapGenerator : MonoBehaviour
 
             minNeighborNum = levelParams[level].minNeighborNum;
             maxNeighborNum = levelParams[level].maxNeighborNum;
+
+            chunkSize = levelParams[level].chunkSize;
+            numDemonsPerChunk = levelParams[level].numDemonsPerChunk;
+            maxLevelDemon = levelParams[level].maxLevelDemon;
         }
         levelNum = level;
 

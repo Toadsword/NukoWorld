@@ -11,12 +11,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c8fee9e256c8e5478de6482f144318e, type: 3}
   m_Name: Level3
   m_EditorClassIdentifier: 
-  sizeX: 35
-  sizeY: 35
+  sizeX: 50
+  sizeY: 50
   celluleInitRepartition: 0.52
-  nbTreasure: 3
+  nbTreasure: 5
   minZoneSize: 80
   emptyZoneMidSize: 3
   extWallsNotEmpty: 12
   minNeighborNum: 3
   maxNeighborNum: 5
+  chunkSize: {x: 10, y: 10}
+  numDemonsPerChunk: 3
+  maxLevelDemon: 1

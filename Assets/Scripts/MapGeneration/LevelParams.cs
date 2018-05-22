@@ -21,6 +21,11 @@ public class LevelParams : ScriptableObject
     //Neighbor
     public int minNeighborNum = 3;
     public int maxNeighborNum = 5;
+
+    //DemonSpawn
+    public Vector2Int chunkSize = new Vector2Int(16, 16);
+    public int numDemonsPerChunk = 2;
+    public int maxLevelDemon = 4;
 }
            
            
