@@ -7,6 +7,10 @@ public class GameManager : MonoBehaviour {
 
     const int NUM_LEVELS = 3;
 
+    [Header("Prefabs")]
+    [SerializeField] GameObject playerPrefab;
+
+    [Header("Public Vars")]
     public SceneManagement sceneManagInstance;
     public SoundManager soundManagInstance;
 
@@ -16,6 +20,8 @@ public class GameManager : MonoBehaviour {
     public int currentLevel = -1;
 
     public MapGenerator levelObj;
+
+    public GameObject playerObj;
     
     // Use this for initialization
     void Start ()
@@ -47,6 +53,12 @@ public class GameManager : MonoBehaviour {
                 break;
 
             case SceneManagement.Scenes.MAP_GENERATION:
+                if (playerObj == null)
+                {
+                    playerObj = Instantiate(playerPrefab, playerPrefab.transform.position, playerPrefab.transform.rotation);
+                    DontDestroyOnLoad(playerObj);
+                }
+
                 isGameRunning = false;
 
                 if (levelObj != null)
@@ -67,6 +79,12 @@ public class GameManager : MonoBehaviour {
                 break;
 
             case SceneManagement.Scenes.MENU:
+                if (playerObj != null)
+                {
+                    Destroy(playerObj);
+                    playerObj = null;
+                }
+
                 isGameRunning = false;
                 isGameWon = false;
                 currentLevel = -1;
@@ -74,6 +92,12 @@ public class GameManager : MonoBehaviour {
                 break;
 
             case SceneManagement.Scenes.END_GAME:
+                if (playerObj != null)
+                {
+                    Destroy(playerObj);
+                    playerObj = null;
+                }
+
                 isGameRunning = false;
                 currentLevel = -1;
                 //soundManagInstance.PlayMusic(SoundManager.MusicList.NONE);

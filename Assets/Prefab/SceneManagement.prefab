@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blackFadeObject: {fileID: 114498185649486318}
-  fadeDuration: 2
+  fadeDuration: 1.3
 --- !u!114 &114977902053672508
 MonoBehaviour:
   m_ObjectHideFlags: 1

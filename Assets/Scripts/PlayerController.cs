@@ -82,13 +82,16 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        UpdateGunPosition();
-        ManageInputs();
-        
-        if(Utility.IsOver(footStepsTimer) && (rigid.velocity.x != 0 || rigid.velocity.y != 0))
+        if(gmInstance.isGameRunning)
         {
-            footStepsTimer = Utility.StartTimer(timeBetweenFootsteps);
-            smInstance.PlaySound(SoundManager.SoundList.WALK);
+            UpdateGunPosition();
+            ManageInputs();
+        
+            if(Utility.IsOver(footStepsTimer) && (rigid.velocity.x != 0 || rigid.velocity.y != 0))
+            {
+                footStepsTimer = Utility.StartTimer(timeBetweenFootsteps);
+                smInstance.PlaySound(SoundManager.SoundList.WALK);
+            }
         }
     }
 

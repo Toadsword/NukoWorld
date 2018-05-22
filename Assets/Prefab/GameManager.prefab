@@ -51,6 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 388f60347a842c548b0499cff2012692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 1721259678282734, guid: 317f497d723840f46bbd176b426348f8,
+    type: 2}
   sceneManagInstance: {fileID: 0}
+  soundManagInstance: {fileID: 0}
   isGameRunning: 0
-  allowPlayerMovements: 1
+  isGameWon: 0
+  currentLevel: -1
+  levelObj: {fileID: 0}
+  playerObj: {fileID: 0}
