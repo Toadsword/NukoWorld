@@ -272,14 +272,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   bulletSpeed: 9
-  bulletDamage: 3
+  bulletDamage: 2
   bulletScale: 0.3
-  fireRate: 0.4
+  fireRate: 0.45
   spamClickReductionFireRate: 0.08
-  healthPoint: 3
-  currentHealth: 0
+  healthPoint: 6
+  currentHealth: 6
   slowTime: 3
   slowTimeRecoveryScale: 0.3
+  moveSpeedBonucWhileSlown: 3
   bulletPrefab: {fileID: 1642896575387220, guid: 149c940872f5118408d26d389bb4d345,
     type: 2}
   particlePrefab: {fileID: 1558062968203006, guid: c01a36808dd7cc64480d586c635a2701,

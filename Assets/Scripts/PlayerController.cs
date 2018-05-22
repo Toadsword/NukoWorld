@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour {
     public int currentHealth;
     [SerializeField] public float slowTime = 3.0f;
     [SerializeField] public float slowTimeRecoveryScale = 0.3f;
+    [SerializeField] public float moveSpeedBonucWhileSlown = 3.0f;
 
     [Header("Prefabs")]
     [SerializeField] GameObject bulletPrefab;
@@ -35,6 +36,8 @@ public class PlayerController : MonoBehaviour {
 
     float slowTimeTimer;
     bool blockedSlowTimeTimer;
+
+    bool isTimeSlown;
 
     bool onStairs = false;
     GameManager gmInstance;
@@ -147,11 +150,21 @@ public class PlayerController : MonoBehaviour {
             if (slowTimeTimer > 0.0f)
             {
                 Time.timeScale = 0.5f;
+                if(!isTimeSlown)
+                {
+                    moveSpeed += moveSpeedBonucWhileSlown;
+                    isTimeSlown = true;
+                }
             }
             else
             {
                 Time.timeScale = 1.0f;
                 blockedSlowTimeTimer = true;
+                if (isTimeSlown)
+                {
+                    moveSpeed -= moveSpeedBonucWhileSlown;
+                    isTimeSlown = false;
+                }
             }
         }
         else
@@ -170,6 +183,12 @@ public class PlayerController : MonoBehaviour {
                 slowTimeTimer = slowTime;
                 blockedSlowTimeTimer = false;
             }
+
+            if (isTimeSlown)
+            {
+                moveSpeed -= moveSpeedBonucWhileSlown;
+                isTimeSlown = false;
+            }
         }
         clock.fillAmount = slowTimeTimer / slowTime;
 
@@ -186,12 +205,14 @@ public class PlayerController : MonoBehaviour {
     public void GetHit(int damage)
     {
         healthPoint -= damage;
-        if(healthPoint <= 0.0f && gmInstance.isGameRunning)
+        if(gmInstance.isGameRunning)
         {
-            //TODO : Trigger death;
-            Debug.Log("PLAYER IS DEAD");
-            gmInstance.EndGame(false);
             smInstance.PlaySound(SoundManager.SoundList.DEATH);
+            if (healthPoint <= 0.0f)
+            {
+                Debug.Log("PLAYER IS DEAD");
+                gmInstance.EndGame(false);
+            }
         }
     }
 

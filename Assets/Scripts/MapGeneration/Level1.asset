@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c8fee9e256c8e5478de6482f144318e, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  sizeX: 35
-  sizeY: 35
+  sizeX: 30
+  sizeY: 30
   celluleInitRepartition: 0.49
   nbTreasure: 2
   minZoneSize: 10
@@ -21,5 +21,5 @@ MonoBehaviour:
   minNeighborNum: 3
   maxNeighborNum: 5
   chunkSize: {x: 15, y: 15}
-  numDemonsPerChunk: 2
+  numDemonsPerChunk: 1
   maxLevelDemon: 1

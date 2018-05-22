@@ -15,7 +15,7 @@ MonoBehaviour:
   bulletSpeed: -4
   bulletDamage: 3
   bulletScale: -0.2
-  fireRate: -0.2
+  fireRate: 0.2
   healthPoint: 0
   healing: 0
   slowTime: 0
