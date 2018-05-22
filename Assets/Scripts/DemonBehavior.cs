@@ -21,6 +21,7 @@ public class DemonBehavior : MonoBehaviour {
 
     string demonName = "Demon";
     float moveSpeed = 5.0f;
+    float acceleration = 3.0f;
     float bulletSpeed = 9.0f;
     float bulletScale = 0.3f;
     float fireRate = 0.4f;
@@ -39,6 +40,7 @@ public class DemonBehavior : MonoBehaviour {
     GameManager gmInstance;
     SoundManager smInstance;
 
+    Rigidbody2D rigid;
 
     GameObject player;
     Vector2 lastAngleToPlayer;
@@ -67,6 +69,8 @@ public class DemonBehavior : MonoBehaviour {
 
         demonLayerMask = 1 << LayerMask.NameToLayer("Demon");
         demonLayerMask = ~demonLayerMask;
+
+        rigid = GetComponent<Rigidbody2D>();
     }
 	
 	// Update is called once per frame
@@ -144,7 +148,19 @@ public class DemonBehavior : MonoBehaviour {
     //Return if the demon is currently moving or not
     private bool DemonMoveTo(Vector2 pos)
     {
-        return false;
+        Vector3 posToSeek = new Vector3(pos.x, pos.y, 0.0f);
+        Vector3 direction = posToSeek - transform.position;
+        
+        direction.Normalize();
+        rigid.AddForce(acceleration * direction);
+        if (rigid.velocity.magnitude > moveSpeed)
+        {
+            rigid.velocity = rigid.velocity.normalized * moveSpeed;
+        }
+
+        if (rigid.velocity.x <= 0.1f && rigid.velocity.y <= 0.1f)
+            return false;
+        return true;
     }
 
     private void ShootPlayer()
